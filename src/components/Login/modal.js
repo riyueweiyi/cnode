@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { reset } from 'redux-form'
 import { connect } from 'react-redux'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
@@ -23,9 +24,10 @@ class LoginModal extends Component {
     }
   }
   onSubmit = (values) => {
-    this.props.login(values, () => {
-      const { hasError, loginName, accesstoken, history } = this.props
+    this.props.login(values).then(res => {
+      const { hasError, loginName, accesstoken, history, reset } = this.props
       if (!hasError) {
+        reset('loginForm')
         window.sessionStorage.setItem('userInfo', JSON.stringify({ loginName, accesstoken }))
         history.push('/')
       }
@@ -52,7 +54,8 @@ LoginModal.propTypes = {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  login: compose(dispatch, login)
+  login: compose(dispatch, login),
+  reset: compose(dispatch, reset)
 })
 
 const mapStateToProps = (state) => {

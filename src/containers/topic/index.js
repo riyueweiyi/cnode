@@ -39,15 +39,15 @@ class Topic extends Component {
     Pixel.post(isCollect ? '/topic_collect/de_collect' : '/topic_collect/collect', {
       accesstoken,
       topic_id: match.params.id
-    }, _ => {
+    }).then(_ => {
       showSnackBar(isCollect ? '取消收藏' : '收藏成功', 'success')
       this.getTopicDetail(false)
-    }, res => showSnackBar(res.error_msg, 'error'))
+    }).catch(res => showSnackBar(res.error_msg, 'error'))
   }
   // 点赞
   upClickHanle = (item) => {
     const { accesstoken, showSnackBar } = this.props
-    Pixel.post(`/reply/${item.id}/ups`, { accesstoken }, _ => this.getTopicDetail(false), _ => showSnackBar(_.error_msg, 'error'))
+    Pixel.post(`/reply/${item.id}/ups`, { accesstoken }).then(_ => this.getTopicDetail(false)).catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   replyItemClickHandle = (item) => {
     this.props.showReplyDrawer(item)
@@ -64,12 +64,12 @@ class Topic extends Component {
       accesstoken,
       content,
       ...(reply ? { reply_id: reply.id } : {})
-    }, _ => {
+    }).then(_ => {
       showSnackBar('回复成功', 'success')
       reset('replyForm')
       showReplyDrawerModal && hideReplyDrawer()
       this.getTopicDetail(false)
-    }, _ => showSnackBar(_.error_msg, 'error'))
+    }).catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   render() {
     const { detail, isLoading, reply, showReplyDrawerModal, hideReplyDrawer } = this.props

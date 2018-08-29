@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { reset } from 'redux-form'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
@@ -17,13 +18,14 @@ class Publish extends Component {
     page: 1
   }
   onSubmit = ({ tab, title, content }) => {
-    const { publish, accesstoken, history } = this.props
+    const { publish, accesstoken, history, reset } = this.props
     publish({
       accesstoken,
       tab,
       title,
       content
-    }, (res) => {
+    }).then((res) => {
+      reset('publishForm')
       res.success && history.replace('/')
     })
   }
@@ -69,7 +71,8 @@ Publish.propTypes = {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  publish: compose(dispatch, publish)
+  publish: compose(dispatch, publish),
+  reset: compose(dispatch, reset)
 })
 
 const mapStateToProps = (state) => {

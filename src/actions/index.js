@@ -104,25 +104,25 @@ export function hideReplyDrawer() {
 }
 
 // 登陆
-export function login(body, callback) {
+export function login(body) {
   return (dispatch) => {
-    Pixel.post('/accesstoken', body, function (res) {
+    return Pixel.post('/accesstoken', body).then(res => {
       dispatch(receiveAccesstoken(body.accesstoken, res.loginname))
       dispatch(showSnackBar('登录成功', 'success'))
-      callback && callback()
-    }, function (err) {
+      return res
+    }).catch(err => {
       dispatch(errorAccesstoken())
       dispatch(showSnackBar(err.error_msg, 'error'))
     })
   }
 }
 // 发布主题
-export function publish(body, callback) {
+export function publish(body) {
   return (dispatch) => {
-    Pixel.post('/topics', body, function (res) {
+    return Pixel.post('/topics', body).then(res => {
       dispatch(showSnackBar('发布成功', 'success'))
-      callback && callback(res)
-    }, function (err) {
+      return res
+    }).catch(err => {
       dispatch(showSnackBar(err.error_msg, 'error'))
     })
   }
@@ -132,9 +132,11 @@ export function publish(body, callback) {
 export function getMessage(params, needShowLoading) {
   return (dispatch) => {
     needShowLoading && dispatch(requestMessage())
-    Pixel.get('/messages', params, function (res) {
-      dispatch(receiveMessage(res.data.has_read_messages, res.data.hasnot_read_messages))
-    }, function (res) {
+    return Pixel.get('/messages', params).then((res) => {
+      const { has_read_messages, hasnot_read_messages } = res.data
+      dispatch(receiveMessage(has_read_messages, hasnot_read_messages))
+      return res
+    }).catch(res => {
       dispatch(failMessage(res.error_msg))
       dispatch(showSnackBar(res.error_msg, 'error'))
     })
@@ -144,9 +146,10 @@ export function getMessage(params, needShowLoading) {
 export function getUserinfo(loginname) {
   return (dispatch) => {
     dispatch(requestUserinfo())
-    Pixel.get(`/user/${loginname}`, null, (res) => {
+    return Pixel.get(`/user/${loginname}`, null).then((res) => {
       dispatch(receiveUserinfo(res))
-    }, (res) => {
+      return res
+    }).catch((res) => {
       dispatch(receiveUserinfo(res))
       dispatch(showSnackBar(res.error_msg, 'error'))
     })
@@ -156,9 +159,10 @@ export function getUserinfo(loginname) {
 export function getTopicDetail(id, params, needShowLoading) {
   return (dispatch) => {
     needShowLoading && dispatch(requestTopicDetail())
-    Pixel.get(`/topic/${id}`, params || null, (res) => {
+    return Pixel.get(`/topic/${id}`, params || null).then((res) => {
       dispatch(receiveTopicDetail(res))
-    }, (res) => {
+      return res
+    }).catch((res) => {
       dispatch(receiveTopicDetail(res))
       dispatch(showSnackBar(res.error_msg, 'error'))
     })

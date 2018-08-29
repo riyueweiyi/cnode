@@ -19,7 +19,7 @@ class Topic extends Component {
   listItemClickHandle = ({ id, topic, has_read }) => {
     const { history, accesstoken } = this.props
     if (!has_read) {
-      Pixel.post(`/message/mark_one/${id}`, { accesstoken }, _ => history.push(`/topic/${topic.id}`), _ => showSnackBar(_.error_msg, 'error'))
+      Pixel.post(`/message/mark_one/${id}`, { accesstoken }).then(_ => history.push(`/topic/${topic.id}`)).catch(_ => showSnackBar(_.error_msg, 'error'))
     } else {
       history.push(`/topic/${topic.id}`)
     }
@@ -30,10 +30,10 @@ class Topic extends Component {
   // 标记全部消息为已读
   markAll = () => {
     const { accesstoken } = this.props
-    Pixel.post('/message/mark_all', { accesstoken }, _ => {
+    Pixel.post('/message/mark_all', { accesstoken }).then(_ => {
       showSnackBar('标记成功', 'success')
       this.getAllMessage(false)
-    }, _ => showSnackBar(_.error_msg, 'error'))
+    }).catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   componentDidMount() {
     this.getAllMessage()
