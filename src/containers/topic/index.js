@@ -9,7 +9,13 @@ import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import compose from 'lodash/fp/flowRight'
-import { getTopicDetail, showReplyDrawer, hideReplyDrawer, showSnackBar } from '../../actions'
+import {
+  getTopicDetail,
+  showReplyDrawer,
+  hideReplyDrawer,
+  showLoginModal,
+  showSnackBar
+} from '../../actions'
 import {
   Loading,
   Content,
@@ -18,6 +24,7 @@ import {
   Tabbar,
   Drawer
 } from '../../components/Topic'
+import LoginModal from '../login/modal'
 import Pixel from '../../utils'
 
 class Topic extends Component {
@@ -35,7 +42,11 @@ class Topic extends Component {
   }
   // 收藏主题
   collectBtnClickHandle = (isCollect) => {
-    const { match, accesstoken, showSnackBar } = this.props
+    const { match, accesstoken, showSnackBar, showLoginModal } = this.props
+    if (!accesstoken) {
+      showLoginModal()
+      return
+    }
     Pixel.post(isCollect ? '/topic_collect/de_collect' : '/topic_collect/collect', {
       accesstoken,
       topic_id: match.params.id
@@ -46,17 +57,33 @@ class Topic extends Component {
   }
   // 点赞
   upClickHanle = (item) => {
-    const { accesstoken, showSnackBar } = this.props
-    Pixel.post(`/reply/${item.id}/ups`, { accesstoken }).then(_ => this.getTopicDetail(false)).catch(_ => showSnackBar(_.error_msg, 'error'))
-  }
-  replyItemClickHandle = (item) => {
-    this.props.showReplyDrawer(item)
+    const { accesstoken, showSnackBar, showLoginModal } = this.props
+    if (!accesstoken) {
+      showLoginModal()
+      return
+    }
+    Pixel.post(`/reply/${item.id}/ups`, { accesstoken })
+      .then(_ => this.getTopicDetail(false))
+      .catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   // 评论主题
   onSubmit = (values) => {
-    const { match, accesstoken, reset, reply, showReplyDrawerModal, hideReplyDrawer, showSnackBar } = this.props
+    const {
+      match,
+      accesstoken,
+      reset,
+      reply,
+      showReplyDrawerModal,
+      hideReplyDrawer,
+      showSnackBar,
+      showLoginModal
+    } = this.props
     if (!values.reply) {
       showSnackBar('请输入评论', 'error')
+      return
+    }
+    if (!accesstoken) {
+      showLoginModal()
       return
     }
     const content = showReplyDrawerModal ? `@${reply.author.loginname} ${values.reply} ` : values.reply
@@ -72,7 +99,7 @@ class Topic extends Component {
     }).catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   render() {
-    const { detail, isLoading, reply, showReplyDrawerModal, hideReplyDrawer } = this.props
+    const { detail, isLoading, reply, showReplyDrawerModal, showReplyDrawer, hideReplyDrawer } = this.props
     if (isLoading || !detail) {
       return <Loading />
     }
@@ -85,7 +112,7 @@ class Topic extends Component {
             key={item.id}
             item={item}
             upClickHanle={this.upClickHanle}
-            replyItemClickHandle={this.replyItemClickHandle}
+            replyItemClickHandle={showReplyDrawer}
           />)
         }
         <ListItem>
@@ -114,6 +141,7 @@ class Topic extends Component {
             reply={reply}
           />
       }
+      <LoginModal closeBtn />
     </Paper>
   }
 }
@@ -134,7 +162,8 @@ const mapDispatchToProps = dispatch => ({
   reset: compose(dispatch, reset),
   showReplyDrawer: compose(dispatch, showReplyDrawer),
   hideReplyDrawer: compose(dispatch, hideReplyDrawer),
-  showSnackBar: compose(dispatch, showSnackBar)
+  showSnackBar: compose(dispatch, showSnackBar),
+  showLoginModal: compose(dispatch, showLoginModal)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Topic)

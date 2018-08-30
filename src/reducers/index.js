@@ -5,7 +5,7 @@ import snackBar from './snackBar'
 import message from './message'
 import user from './user'
 import topic from './topic'
-
+import modal from './modal'
 
 export default combineReducers({
   userInfo,
@@ -13,5 +13,6 @@ export default combineReducers({
   message,
   user,
   topic,
+  loginModal: modal,
   form: reduxFormReducer
 })

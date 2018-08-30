@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { reset } from 'redux-form'
 import { connect } from 'react-redux'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
@@ -9,42 +8,36 @@ import Dialog from '@material-ui/core/Dialog'
 import withStyles from '@material-ui/core/styles/withStyles'
 import compose from 'lodash/fp/flowRight'
 import styles from './style'
-import LoginForm from './form'
-import { login } from '../../actions'
+import { hideLoginModal } from '../../actions'
 
 function Transition(props) {
   return <Slide direction="up" {...props} />
 }
 
 class LoginModal extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: true, // 
-    }
+  static defaultProps = {
+    closeBtn: false
   }
-  onSubmit = (values) => {
-    this.props.login(values).then(res => {
-      const { hasError, loginName, accesstoken, history, reset } = this.props
-      if (!hasError) {
-        reset('loginForm')
-        window.sessionStorage.setItem('userInfo', JSON.stringify({ loginName, accesstoken }))
-        history.push('/')
-      }
-    })
+  componentWillUnmount() {
+    const { openModal, hideLoginModal } = this.props
+    openModal && hideLoginModal()
   }
   render() {
-    const { classes } = this.props
+    const { classes, closeBtn, openModal, hideLoginModal, children } = this.props
     return <Dialog
       fullScreen
-      open={this.state.open}
-      onClose={this.handleClose}
+      open={openModal}
+      onClose={hideLoginModal}
       TransitionComponent={Transition}
     >
-      <IconButton color="primary" className={classes.closeBtn} onClick={this.handleClose} aria-label="Close">
-        <CloseIcon />
-      </IconButton>
-      <LoginForm onSubmit={this.onSubmit} />
+      {
+        closeBtn && <IconButton color="primary" className={classes.closeBtn} onClick={hideLoginModal} aria-label="Close">
+          <CloseIcon />
+        </IconButton>
+      }
+      {
+        children
+      }
     </Dialog>
   }
 }
@@ -54,16 +47,13 @@ LoginModal.propTypes = {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  login: compose(dispatch, login),
-  reset: compose(dispatch, reset)
+  hideLoginModal: compose(dispatch, hideLoginModal)
 })
 
 const mapStateToProps = (state) => {
-  const { hasError, loginName, accesstoken } = state.userInfo
+  const { loginModal } = state
   return {
-    hasError,
-    loginName,
-    accesstoken
+    openModal: loginModal
   }
 }
 

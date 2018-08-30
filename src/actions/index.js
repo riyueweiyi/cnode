@@ -12,7 +12,20 @@ export const REQUEST_TOPIC_DETAIL = 'request_topic_detail'
 export const RECEIVE_TOPIC_DETAIL = 'receive_topic_detail'
 export const SHOW_REPLY_DRAWER = 'show_reply_drawer'
 export const HIDE_REPLY_DRAWER = 'hide_reply_drawer'
+export const SHOW_LOGIN_MODAL = 'show_login_modal'
+export const HIDE_LOGIN_MODAL = 'hide_login_modal'
 
+export function showLoginModal() {
+  return {
+    type: SHOW_LOGIN_MODAL
+  }
+}
+
+export function hideLoginModal() {
+  return {
+    type: HIDE_LOGIN_MODAL
+  }
+}
 // 登陆成功
 export function receiveAccesstoken(accesstoken, loginName) {
   return {

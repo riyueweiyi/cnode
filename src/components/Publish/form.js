@@ -1,85 +1,46 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { reset } from 'redux-form'
+import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
-import compose from 'lodash/fp/flowRight'
 import TabForm from './tab'
 import TitleForm from './title'
 import ContentForm from './content'
 import styles from './style'
-import { publish } from '../../actions'
 
-class Publish extends Component {
-  state = {
-    page: 1
-  }
-  onSubmit = ({ tab, title, content }) => {
-    const { publish, accesstoken, history, reset } = this.props
-    publish({
-      accesstoken,
-      tab,
-      title,
-      content
-    }).then((res) => {
-      reset('publishForm')
-      res.success && history.replace('/')
-    })
-  }
-  nextPage = () => {
-    this.changePage(1)
-  }
-  previousPage = () => {
-    this.changePage(-1)
-  }
-  changePage = (step) => {
-    this.setState({ page: this.state.page + step })
-  }
-  goBack = () => {
-    this.props.history.go(-1)
-  }
-  render() {
-    const { classes } = this.props
-    const { page } = this.state
-    return <React.Fragment>
-      <IconButton color="primary" className={classes.backBtn} onClick={this.goBack} aria-label="Close">
-        <ArrowBack />
-      </IconButton>
-      <main className={classes.layout}>
-        <Typography
-          variant="headline"
-          color="primary"
-          align="center"
-          gutterBottom
-          paragraph
-        >
-          发帖
+const PublishForm = ({ classes, page, nextPage, previousPage, onSubmit, goBack }) => {
+  return <React.Fragment>
+    <IconButton color="primary" className={classes.backBtn} onClick={goBack} aria-label="Close">
+      <ArrowBack />
+    </IconButton>
+    <main className={classes.layout}>
+      <Typography
+        variant="headline"
+        color="primary"
+        align="center"
+        gutterBottom
+        paragraph
+      >
+        发帖
       </Typography>
-        {page === 1 && <TabForm onSubmit={this.nextPage} />}
-        {page === 2 && <TitleForm previousPage={this.previousPage} onSubmit={this.nextPage} />}
-        {page === 3 && <ContentForm previousPage={this.previousPage} onSubmit={this.onSubmit} />}
-      </main>
-    </React.Fragment>
-  }
+      {page === 1 && <TabForm onSubmit={nextPage} />}
+      {page === 2 && <TitleForm previousPage={previousPage} onSubmit={nextPage} />}
+      {page === 3 && <ContentForm previousPage={previousPage} onSubmit={onSubmit} />}
+    </main>
+  </React.Fragment>
 }
 
-Publish.propTypes = {
-  classes: PropTypes.object.isRequired,
+PublishForm.propTypes = {
+  classes: PropTypes.object.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  publish: compose(dispatch, publish),
-  reset: compose(dispatch, reset)
-})
-
-const mapStateToProps = (state) => {
-  const { userInfo: { accesstoken } } = state
-  return {
-    accesstoken
-  }
+PublishForm.defaultProps = {
+  page: 1,
+  nextPage: _ => { },
+  previousPage: _ => { },
+  goBack: _ => { },
+  onSubmit: _ => { }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Publish))
+export default withStyles(styles)(PublishForm)

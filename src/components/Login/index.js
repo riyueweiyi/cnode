@@ -1,3 +1,7 @@
-import Login from './modal'
+import LoginModal from './modal'
+import LoginForm from './form'
 
-export default Login
+export {
+  LoginForm,
+  LoginModal
+}
