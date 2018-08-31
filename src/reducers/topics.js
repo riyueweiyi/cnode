@@ -1,4 +1,4 @@
-import { RECEIVE_TOPICS, REQUEST_TOPICS, RECORD_TOPIC_POS, CHANGE_TAB, FAIL_TOPICS } from '../actions'
+import { RECEIVE_TOPICS, REQUEST_NEXT_PAGE_TOPIC_LIST, REQUEST_TOPICS, RECORD_TOPIC_POS, CHANGE_TAB, FAIL_TOPICS } from '../actions'
 
 const initState = {
   list: [],
@@ -22,7 +22,7 @@ export default (state = initState, action) => {
       return {
         ...state,
         error: false,
-        list: action.topics,
+        list: action.page === 1 ? action.topics : [...state.list, ...action.topics],
         isLoading: false
       }
     case FAIL_TOPICS:
@@ -38,15 +38,22 @@ export default (state = initState, action) => {
         page: 1,
         scrollY: 0,
         list: [],
+        pageSize: 15,
         tab: action.tab
       }
     case RECORD_TOPIC_POS:
       return {
         ...state,
+        list: [],
         scrollY: action.scrollY,
         tab: action.tab,
         page: action.page,
         pageSize: action.pageSize
+      }
+    case REQUEST_NEXT_PAGE_TOPIC_LIST:
+      return {
+        ...state,
+        page: state.page + 1
       }
     default:
       return state

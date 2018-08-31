@@ -8,6 +8,16 @@ class App extends Component {
   handleClose = () => {
     this.props.hideSnackBar()
   }
+  onbeforeunloadHandle = () => {
+    const { tabInfo } = this.props
+    sessionStorage.setItem('tabInfo', JSON.stringify(tabInfo))
+  }
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.onbeforeunloadHandle)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onbeforeunloadHandle)
+  }
   render() {
     const { content, variant } = this.props
     return (
@@ -34,10 +44,16 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { content, variant } = state.snackBar
+  const { snackBar: { content, variant }, topics } = state
   return {
     content,
-    variant
+    variant,
+    tabInfo: topics ? {
+      page: topics.page,
+      pageSize: topics.pageSize,
+      tab: topics.tab,
+      scrollY: topics.scrollY
+    } : null
   }
 }
 

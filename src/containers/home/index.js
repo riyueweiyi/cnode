@@ -3,19 +3,33 @@ import { connect } from 'react-redux'
 import IconButton from '@material-ui/core/IconButton'
 import Notifications from '@material-ui/icons/Notifications'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { Link } from 'react-router-dom'
 import compose from 'lodash/fp/flowRight'
-import { chagnTabHandle, recordTopicPos } from '../../actions'
+import { chagnTabHandle, recordTopicPos, requestNextPageTopicList, initPageData } from '../../actions'
 import { Tab, FabBtn, Appbar, CardItem, CircularProgress } from '../../components/Home'
 
 class Home extends Component {
   componentDidMount() {
-    const { chagnTabHandle, scrollY, tab } = this.props
-    if (scrollY && tab) {
-      // 如果store有上次浏览记录，回滚显示
-      chagnTabHandle(tab).then(_ => window.scrollTo(0, scrollY)) 
+    const { chagnTabHandle, initPageData, scrollY, tab } = this.props
+    // 如果store有上次浏览记录，回滚显示
+    if (scrollY || tab) {
+      initPageData().then(_ => window.scrollTo(0, scrollY))
     } else {
       chagnTabHandle('')
+    }
+    window.addEventListener('scroll', this.loadNextPageData)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.loadNextPageData)
+  }
+  loadNextPageData = (e) => {
+    const { isLoading, requestNextPageTopicList, list } = this.props
+    if (!list.length || isLoading) {
+      return
+    }
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      requestNextPageTopicList()
     }
   }
   publishBtnClickHandle = () => {
@@ -33,11 +47,11 @@ class Home extends Component {
   cardItemClickHandle = (item) => {
     const { history, tab, page, pageSize, recordTopicPos } = this.props
     // 记录滚动的位置和主题总数
-    recordTopicPos(tab, window.scrollY, page * pageSize)
+    recordTopicPos(tab, window.scrollY, page, pageSize)
     history.push(`/topic/${item.id}`)
   }
   render() {
-    const { list, changeTabLoading, tab, accesstoken } = this.props
+    const { list, changeTabLoading, isLoading, tab, accesstoken } = this.props
     return <div>
       <Appbar right={
         <React.Fragment>
@@ -65,6 +79,7 @@ class Home extends Component {
           list.map(item => <CardItem key={item.id} onClick={this.cardItemClickHandle} item={item} />)
         }
       </Tab>
+      {isLoading && <LinearProgress />}
       <FabBtn onClick={this.publishBtnClickHandle} />
     </div>
   }
@@ -79,15 +94,17 @@ const mapStateToProps = (state) => {
     loginName,
     list,
     tab,
-    isLoading,
+    isLoading: Boolean(isLoading && list.length),
     scrollY,
-    changeTabLoading: isLoading && page === 1
+    changeTabLoading: Boolean(isLoading && !list.length)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  initPageData: compose(dispatch, initPageData),
   chagnTabHandle: compose(dispatch, chagnTabHandle),
-  recordTopicPos: compose(dispatch, recordTopicPos)
+  recordTopicPos: compose(dispatch, recordTopicPos),
+  requestNextPageTopicList: compose(dispatch, requestNextPageTopicList)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

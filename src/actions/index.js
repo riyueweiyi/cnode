@@ -19,6 +19,7 @@ export const RECEIVE_TOPICS = 'receive_topics'
 export const FAIL_TOPICS = 'fail_topics'
 export const CHANGE_TAB = 'change_tab'
 export const RECORD_TOPIC_POS = 'record_topic_pos'
+export const REQUEST_NEXT_PAGE_TOPIC_LIST = 'request_next_page_topic_list'
 
 export function requestTopics() {
   return {
@@ -26,10 +27,11 @@ export function requestTopics() {
   }
 }
 
-export function receiveTopics(topics) {
+export function receiveTopics(topics, page) {
   return {
     type: RECEIVE_TOPICS,
-    topics
+    topics,
+    page
   }
 }
 
@@ -40,21 +42,26 @@ export function failTopics(errMsg) {
   }
 }
 
-export function recordTopicPos(tab, scrollY, pageSize) {
+export function recordTopicPos(tab, scrollY, page, pageSize) {
   return {
     type: RECORD_TOPIC_POS,
     scrollY,
     tab,
-    page: 1,
+    page,
     pageSize
+  }
+}
+
+export function requestNextPageTopic() {
+  return {
+    type: REQUEST_NEXT_PAGE_TOPIC_LIST
   }
 }
 
 export function changeTab(tab) {
   return {
     type: CHANGE_TAB,
-    tab,
-    page: 1
+    tab
   }
 }
 
@@ -173,12 +180,13 @@ export function login(body) {
   }
 }
 
-export function getTopics() {
-  return (dispatch, getState) => {
+
+// 加载主题
+export function getTopicList(tab, page, limit) {
+  return (dispatch) => {
     dispatch(requestTopics())
-    const { topics: { tab, page, pageSize: limit } } = getState()
     return Pixel.get('/topics', { tab, page, limit }).then(res => {
-      dispatch(receiveTopics(res.data))
+      dispatch(receiveTopics(res.data, page))
       return res
     }).catch(_ => {
       dispatch(showSnackBar(_.error_msg, 'error'))
@@ -187,10 +195,29 @@ export function getTopics() {
   }
 }
 
-export function chagnTabHandle(tab) {
-  return dispath => {
-    dispath(changeTab(tab))
-    return dispath(getTopics()) // 返回promise
+// 初始化页面数据
+export function initPageData() {
+  return (dispatch, getState) => {
+    const { topics: {tab, page, pageSize } } = getState()
+    return dispatch(getTopicList(tab, 1, page * pageSize)) // 加载所有数据
+  }
+}
+
+// 切换主题tab
+export function chagnTabHandle(tabValue) {
+  return (dispatch, getState ) => {
+    dispatch(changeTab(tabValue))
+    const { topics: {tab, page, pageSize } } = getState()
+    return dispatch(getTopicList(tab, page, pageSize)) // 返回promise
+  }
+}
+
+// 获取下一页主题
+export function requestNextPageTopicList() {
+  return (dispatch, getState) => {
+    dispatch(requestNextPageTopic())
+    const { topics: { tab, page, pageSize }} = getState()
+    return dispatch(getTopicList(tab, page, pageSize))
   }
 }
 

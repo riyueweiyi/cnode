@@ -10,7 +10,7 @@ import blue from '@material-ui/core/colors/blue'
 import configureStore from './store/configureStore'
 import routes from './routes'
 import registerServiceWorker from './registerServiceWorker'
-import { receiveAccesstoken } from './actions'
+import { receiveAccesstoken, recordTopicPos } from './actions'
 import App from './containers/App'
 import './reset.css'
 
@@ -21,8 +21,10 @@ const theme = createMuiTheme({
 })
 
 const userInfo = JSON.parse(sessionStorage.getItem('userInfo')) || {}
+const tabInfo = JSON.parse(sessionStorage.getItem('tabInfo')) || {}
 const store = configureStore()
 store.dispatch(receiveAccesstoken(userInfo.accesstoken, userInfo.loginName))
+store.dispatch(recordTopicPos(tabInfo.tab, tabInfo.scrollY, tabInfo.page, tabInfo.pageSize))
 
 ReactDOM.render(
   <Provider store={store}>
