@@ -30,7 +30,7 @@ const routes = [
     component: Message
   },
   {
-    path: '/user/:loginname',
+    path: '/user/:loginname?',
     component: User
   }
 ]

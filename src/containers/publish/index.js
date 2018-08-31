@@ -4,7 +4,7 @@ import { reset } from 'redux-form'
 import compose from 'lodash/fp/flowRight'
 import { publish, showLoginModal } from '../../actions'
 import PublishForm from '../../components/Publish'
-import LoginModal from '../login/modal'
+import LoginForm from '../login'
 
 class Publish extends Component {
   state = {
@@ -14,14 +14,9 @@ class Publish extends Component {
     const { accesstoken, showLoginModal } = this.props
     !accesstoken && showLoginModal()
   }
-  onSubmit = ({ tab, title, content }) => {
-    const { publish, accesstoken, history, reset } = this.props
-    publish({
-      accesstoken,
-      tab,
-      title,
-      content
-    }).then((res) => {
+  onSubmit = (form) => {
+    const { publish, history, reset } = this.props
+    publish(form).then((res) => {
       reset('publishForm')
       res.success && history.replace('/')
     })
@@ -47,7 +42,7 @@ class Publish extends Component {
         nextPage={this.nextPage}
         onSubmit={this.onSubmit}
       />
-      <LoginModal />
+      <LoginForm modal />
     </React.Fragment>
   }
 }

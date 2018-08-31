@@ -9,8 +9,8 @@ import { Avatar, Section, Loading } from '../../components/User'
 
 class User extends Component {
   componentDidMount() {
-    const { getUserinfo, match } = this.props
-    getUserinfo(match.params.loginname)
+    const { getUserinfo, match, loginName } = this.props
+    getUserinfo(match.params.loginname || loginName)
   }
   listItemClickHandle = ({ id }) => {
     this.props.history.push(`/topic/${id}`)
@@ -49,10 +49,11 @@ class User extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { user: { user, isLoading } } = state
+  const { user: { user, isLoading }, userInfo: { loginName } } = state
   return {
     user,
-    isLoading
+    isLoading,
+    loginName
   }
 }
 

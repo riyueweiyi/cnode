@@ -29,18 +29,15 @@ class Topic extends Component {
   }
   // 标记全部消息为已读
   markAll = () => {
-    const { accesstoken } = this.props
+    const { accesstoken, getMessage } = this.props
     Pixel.post('/message/mark_all', { accesstoken }).then(_ => {
       showSnackBar('标记成功', 'success')
-      this.getAllMessage(false)
+      getMessage()
     }).catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   componentDidMount() {
-    this.getAllMessage()
-  }
-  getAllMessage(needShowLoading = true) {
-    const { getMessage, accesstoken } = this.props
-    getMessage({ accesstoken }, needShowLoading)
+    const { getMessage } = this.props
+    getMessage(true)
   }
   render() {
     const { isLoading, classes, messages, hasnotReadMessages } = this.props

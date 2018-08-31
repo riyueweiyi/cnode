@@ -14,7 +14,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />
 }
 
-class LoginModal extends Component {
+class ModalWrapper extends Component {
   static defaultProps = {
     closeBtn: false
   }
@@ -42,7 +42,7 @@ class LoginModal extends Component {
   }
 }
 
-LoginModal.propTypes = {
+ModalWrapper.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
@@ -57,4 +57,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginModal))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ModalWrapper))

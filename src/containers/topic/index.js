@@ -24,7 +24,7 @@ import {
   Tabbar,
   Drawer
 } from '../../components/Topic'
-import LoginModal from '../login/modal'
+import LoginForm from '../login'
 import Pixel from '../../utils'
 
 class Topic extends Component {
@@ -36,9 +36,9 @@ class Topic extends Component {
   goBack = () => {
     this.props.history.go(-1)
   }
-  getTopicDetail = (needShowLoading = true) => {
-    const { match, getTopicDetailById, accesstoken } = this.props
-    getTopicDetailById(match.params.id, { accesstoken }, needShowLoading)
+  getTopicDetail = (showLoading = true) => {
+    const { match, getTopicDetailById } = this.props
+    getTopicDetailById(match.params.id, showLoading)
   }
   // 收藏主题
   collectBtnClickHandle = (isCollect) => {
@@ -141,7 +141,7 @@ class Topic extends Component {
             reply={reply}
           />
       }
-      <LoginModal closeBtn />
+      <LoginForm modal closeBtn />
     </Paper>
   }
 }

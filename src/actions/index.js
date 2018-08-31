@@ -14,6 +14,49 @@ export const SHOW_REPLY_DRAWER = 'show_reply_drawer'
 export const HIDE_REPLY_DRAWER = 'hide_reply_drawer'
 export const SHOW_LOGIN_MODAL = 'show_login_modal'
 export const HIDE_LOGIN_MODAL = 'hide_login_modal'
+export const REQUEST_TOPICS = 'request_topics'
+export const RECEIVE_TOPICS = 'receive_topics'
+export const FAIL_TOPICS = 'fail_topics'
+export const CHANGE_TAB = 'change_tab'
+export const RECORD_TOPIC_POS = 'record_topic_pos'
+
+export function requestTopics() {
+  return {
+    type: REQUEST_TOPICS
+  }
+}
+
+export function receiveTopics(topics) {
+  return {
+    type: RECEIVE_TOPICS,
+    topics
+  }
+}
+
+export function failTopics(errMsg) {
+  return {
+    type: FAIL_TOPICS,
+    errMsg
+  }
+}
+
+export function recordTopicPos(tab, scrollY, pageSize) {
+  return {
+    type: RECORD_TOPIC_POS,
+    scrollY,
+    tab,
+    page: 1,
+    pageSize
+  }
+}
+
+export function changeTab(tab) {
+  return {
+    type: CHANGE_TAB,
+    tab,
+    page: 1
+  }
+}
 
 export function showLoginModal() {
   return {
@@ -129,10 +172,36 @@ export function login(body) {
     })
   }
 }
+
+export function getTopics() {
+  return (dispatch, getState) => {
+    dispatch(requestTopics())
+    const { topics: { tab, page, pageSize: limit } } = getState()
+    return Pixel.get('/topics', { tab, page, limit }).then(res => {
+      dispatch(receiveTopics(res.data))
+      return res
+    }).catch(_ => {
+      dispatch(showSnackBar(_.error_msg, 'error'))
+      dispatch(failTopics(_.error_msg))
+    })
+  }
+}
+
+export function chagnTabHandle(tab) {
+  return dispath => {
+    dispath(changeTab(tab))
+    return dispath(getTopics()) // 返回promise
+  }
+}
+
 // 发布主题
 export function publish(body) {
-  return (dispatch) => {
-    return Pixel.post('/topics', body).then(res => {
+  return (dispatch, getState) => {
+    const { userInfo: { accesstoken } } = getState()
+    return Pixel.post('/topics', {
+      ...body,
+      accesstoken
+    }).then(res => {
       dispatch(showSnackBar('发布成功', 'success'))
       return res
     }).catch(err => {
@@ -142,10 +211,11 @@ export function publish(body) {
 }
 
 // 获取消息
-export function getMessage(params, needShowLoading) {
-  return (dispatch) => {
-    needShowLoading && dispatch(requestMessage())
-    return Pixel.get('/messages', params).then((res) => {
+export function getMessage(showLoading) {
+  return (dispatch, getState) => {
+    const { userInfo: { accesstoken } } = getState()
+    showLoading && dispatch(requestMessage())
+    return Pixel.get('/messages', { accesstoken }).then((res) => {
       const { has_read_messages, hasnot_read_messages } = res.data
       dispatch(receiveMessage(has_read_messages, hasnot_read_messages))
       return res
@@ -169,10 +239,11 @@ export function getUserinfo(loginname) {
   }
 }
 
-export function getTopicDetail(id, params, needShowLoading) {
-  return (dispatch) => {
-    needShowLoading && dispatch(requestTopicDetail())
-    return Pixel.get(`/topic/${id}`, params || null).then((res) => {
+export function getTopicDetail(id, showLoading) {
+  return (dispatch, getState) => {
+    const { userInfo: { accesstoken } } = getState()
+    showLoading && dispatch(requestTopicDetail())
+    return Pixel.get(`/topic/${id}`, { accesstoken }).then((res) => {
       dispatch(receiveTopicDetail(res))
       return res
     }).catch((res) => {
