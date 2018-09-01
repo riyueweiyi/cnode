@@ -21,8 +21,8 @@ class Login extends Component {
   }
   onSubmit = (values) => {
     this.props.login(values).then(res => {
-      const { hasError, loginName, accesstoken, hideLoginModal, reset, modal, history, location } = this.props
-      if (!hasError) {
+      const { error, loginName, accesstoken, hideLoginModal, reset, modal, history, location } = this.props
+      if (!error) {
         reset('loginForm')
         window.sessionStorage.setItem('userInfo', JSON.stringify({ loginName, accesstoken }))
         // 如果是 login 是 modal 模式则关闭否则重定向 url
@@ -53,9 +53,9 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => {
-  const { userInfo: { hasError, loginName, accesstoken } } = state
+  const { userInfo: { error, loginName, accesstoken } } = state
   return {
-    hasError,
+    error,
     loginName,
     accesstoken
   }

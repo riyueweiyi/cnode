@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Notifications from '@material-ui/icons/Notifications'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import { Link } from 'react-router-dom'
+import Typography from '@material-ui/core/Typography'
 import compose from 'lodash/fp/flowRight'
 import { chagnTabHandle, recordTopicPos, requestNextPageTopicList, initPageData } from '../../actions'
 import { Tab, FabBtn, Appbar, CardItem, CircularProgress } from '../../components/Home'
@@ -24,8 +24,8 @@ class Home extends Component {
     window.removeEventListener('scroll', this.loadNextPageData)
   }
   loadNextPageData = (e) => {
-    const { isLoading, requestNextPageTopicList, list } = this.props
-    if (!list.length || isLoading) {
+    const { loading, requestNextPageTopicList, list } = this.props
+    if (!list.length || loading) {
       return
     }
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -34,6 +34,7 @@ class Home extends Component {
   }
   publishBtnClickHandle = () => {
     const { history } = this.props
+    this.recordScrollY()
     history.push('/publish')
   }
   chagnTabHandle = (e, value) => {
@@ -42,21 +43,31 @@ class Home extends Component {
   }
   goUserPage = () => {
     const { accesstoken, loginName, history } = this.props
+    this.recordScrollY()
     history.push(accesstoken ? `/user/${loginName}` : '/login?redirectUrl=user')
   }
-  cardItemClickHandle = (item) => {
-    const { history, tab, page, pageSize, recordTopicPos } = this.props
+  recordScrollY = () => {
+    const { tab, page, pageSize, recordTopicPos } = this.props
     // 记录滚动的位置和主题总数
     recordTopicPos(tab, window.scrollY, page, pageSize)
+  }
+  cardItemClickHandle = (item) => {
+    const { history } = this.props
+    this.recordScrollY()
     history.push(`/topic/${item.id}`)
   }
+  goMessage = () => {
+    const { history } = this.props
+    this.recordScrollY()
+    history.push('/message')
+  }
   render() {
-    const { list, changeTabLoading, isLoading, tab, accesstoken } = this.props
+    const { list, firstPageLoading, loading, error, errMsg, tab, accesstoken } = this.props
     return <div>
       <Appbar right={
         <React.Fragment>
           {
-            accesstoken && <IconButton color="inherit" component={Link} to="/message">
+            accesstoken && <IconButton color="inherit" onClick={this.goMessage}>
               <Notifications />
             </IconButton>
           }
@@ -73,30 +84,35 @@ class Home extends Component {
       </Appbar>
       <Tab tab={tab} handleChange={this.chagnTabHandle}>
         {
-          changeTabLoading && <CircularProgress />
+          firstPageLoading && <CircularProgress />
+        }
+        {
+          error && <Typography align="center" gutterBottom color="secondary" component="p" >{errMsg}</Typography>
         }
         {
           list.map(item => <CardItem key={item.id} onClick={this.cardItemClickHandle} item={item} />)
         }
       </Tab>
-      {isLoading && <LinearProgress />}
+      {loading && <LinearProgress />}
       <FabBtn onClick={this.publishBtnClickHandle} />
     </div>
   }
 }
 
 const mapStateToProps = (state) => {
-  const { topics: { list, tab, isLoading, page, pageSize, scrollY }, userInfo: { accesstoken, loginName } } = state
+  const { topics: { errMsg, list, tab, status, page, pageSize, scrollY }, userInfo: { accesstoken, loginName } } = state
   return {
+    error: status === 'error',
+    errMsg,
     page,
     pageSize,
     accesstoken,
     loginName,
     list,
     tab,
-    isLoading: Boolean(isLoading && list.length),
+    loading: Boolean(status === 'loading' && list.length), // 加载下一页loading
     scrollY,
-    changeTabLoading: Boolean(isLoading && !list.length)
+    firstPageLoading: Boolean(status === 'loading' && !list.length) // 加载第一页loading
   }
 }
 

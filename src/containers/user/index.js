@@ -6,6 +6,7 @@ import HowToRegIcon from '@material-ui/icons/HowToReg'
 import compose from 'lodash/fp/flowRight'
 import { getUserinfo } from '../../actions'
 import { Avatar, Section, Loading } from '../../components/User'
+import ErrorPage from '../../components/Error'
 
 class User extends Component {
   componentDidMount() {
@@ -19,9 +20,12 @@ class User extends Component {
     this.props.history.go(-1)
   }
   render() {
-    const { isLoading, user } = this.props
-    if (isLoading || !user) {
+    const { loading, error, errMsg, user } = this.props
+    if (loading) {
       return <Loading />
+    }
+    if (error) {
+      return <ErrorPage>{errMsg}</ErrorPage>
     }
     const sections = [
       {
@@ -49,10 +53,12 @@ class User extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { user: { user, isLoading }, userInfo: { loginName } } = state
+  const { user: { user, status, errMsg }, userInfo: { loginName } } = state
   return {
+    error: status === 'error',
+    errMsg,
     user,
-    isLoading,
+    loading: ['beforeunload', 'loading'].some(i => i === status),
     loginName
   }
 }

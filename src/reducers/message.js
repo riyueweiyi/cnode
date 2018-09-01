@@ -1,8 +1,7 @@
 import { REQUEST_MESSAGE, FAIL_MESSAGE, RECEIVE_MESSAGE } from '../actions'
 
 const initState = {
-  isLoading: false,
-  hasError: false,
+  status: 'beforeunload', // 请求状态 beforeunload loading success error
   errMsg: '',
   hasReadMessages: [],
   hasnotReadMessages: []
@@ -13,13 +12,12 @@ export default function (state = initState, action) {
     case REQUEST_MESSAGE:
       return {
         ...state,
-        isLoading: true
+        status: 'loading'
       }
     case RECEIVE_MESSAGE:
       return {
         ...state,
-        isLoading: false,
-        hasError: false,
+        status: 'success',
         errMsg: '',
         hasnotReadMessages: action.hasnotReadMessage,
         hasReadMessages: action.hasReadMessage
@@ -27,8 +25,7 @@ export default function (state = initState, action) {
     case FAIL_MESSAGE:
       return {
         ...state,
-        isLoading: false,
-        hasError: true,
+        status: 'error',
         errMsg: action.errMsg
       }
     default:

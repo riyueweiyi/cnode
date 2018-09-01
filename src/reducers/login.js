@@ -2,7 +2,7 @@
 import { RECEIVE_ACCESSSTOKEN, ERROR_ACCESSTOKEN } from '../actions'
 
 const initialState = {
-  hasError: false,
+  error: false,
   accesstoken: void 0,
   loginName: void 0
 }
@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
     case RECEIVE_ACCESSSTOKEN:
       return {
         ...state,
-        hasError: false,
+        error: false,
         accesstoken: action.accesstoken,
         loginName: action.loginName
       }
@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
         ...state,
         accesstoken: void 0,
         loginName: void 0,
-        hasError: true
+        error: true
       }
     }
     default:

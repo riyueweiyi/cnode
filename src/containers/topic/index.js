@@ -25,11 +25,12 @@ import {
   Drawer
 } from '../../components/Topic'
 import LoginForm from '../login'
+import ErrorPage from '../../components/Error'
 import Pixel from '../../utils'
 
 class Topic extends Component {
   componentDidMount() {
-    window.scrollY && window.scrollTo(0, 0);
+    window.scrollY && window.scrollTo(0, 0)
     this.getTopicDetail()
   }
   // 返回
@@ -99,9 +100,12 @@ class Topic extends Component {
     }).catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   render() {
-    const { detail, isLoading, reply, showReplyDrawerModal, showReplyDrawer, hideReplyDrawer } = this.props
-    if (isLoading || !detail) {
+    const { detail, errMsg, error, loading, reply, showReplyDrawerModal, showReplyDrawer, hideReplyDrawer } = this.props
+    if (loading) {
       return <Loading />
+    }
+    if (error) {
+      return <ErrorPage>{errMsg}</ErrorPage>
     }
     return <Paper>
       <Tabbar goBack={this.goBack} detail={detail} />
@@ -147,10 +151,12 @@ class Topic extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { topic: { isLoading, detail, showReplyDrawer: showReplyDrawerModal, reply }, userInfo: { accesstoken } } = state
+  const { topic: { status, errMsg, detail, showReplyDrawer: showReplyDrawerModal, reply }, userInfo: { accesstoken } } = state
   return {
+    error: status === 'error',
+    errMsg,
     detail,
-    isLoading,
+    loading: status === 'beforeunload' || status === 'loading',
     accesstoken,
     showReplyDrawerModal,
     reply

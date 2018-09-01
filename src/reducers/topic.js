@@ -2,8 +2,7 @@ import { REQUEST_TOPIC_DETAIL, RECEIVE_TOPIC_DETAIL, SHOW_REPLY_DRAWER, HIDE_REP
 
 const initState = {
   detail: null,
-  hasError: false,
-  isLoading: false,
+  status: 'beforeunload', // beforeunload loading success error
   errMsg: '',
   reply: null,
   showReplyDrawer: false
@@ -14,14 +13,13 @@ export default (state = initState, action) => {
     case REQUEST_TOPIC_DETAIL:
       return {
         ...state,
-        isLoading: true
+        status: 'loading'
       }
     case RECEIVE_TOPIC_DETAIL:
       return {
         ...state,
-        isLoading: false,
         detail: action.data,
-        hasError: !action.success,
+        status: action.success ? 'success' : 'error',
         errMsg: action.error_msg || ''
       }
     case SHOW_REPLY_DRAWER:

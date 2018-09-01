@@ -190,7 +190,7 @@ export function getTopicList(tab, page, limit) {
       return res
     }).catch(_ => {
       dispatch(showSnackBar(_.error_msg, 'error'))
-      dispatch(failTopics(_.error_msg))
+      dispatch(failTopics(_.error_msg, page))
     })
   }
 }

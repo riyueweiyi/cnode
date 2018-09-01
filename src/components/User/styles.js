@@ -1,8 +1,8 @@
-
+const bgImage = process.env.PUBLIC_URL + '/images/bg.jpg'
 const styles = theme => ({
   bg: {
     position: 'relative',
-    background: 'url(/images/bg.jpg) no-repeat center 0',
+    background: `url(${bgImage}) no-repeat center 0`,
     backgroundSize: '100% 100%'
   },
   backBtn: {

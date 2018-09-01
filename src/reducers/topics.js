@@ -2,8 +2,7 @@ import { RECEIVE_TOPICS, REQUEST_NEXT_PAGE_TOPIC_LIST, REQUEST_TOPICS, RECORD_TO
 
 const initState = {
   list: [],
-  isLoading: false,
-  error: false,
+  status: 'beforeunload', // beforeunload loading success error
   tab: '',
   page: 1,
   pageSize: 15,
@@ -16,20 +15,19 @@ export default (state = initState, action) => {
     case REQUEST_TOPICS:
       return {
         ...state,
-        isLoading: true
+        status: 'loading'
       }
     case RECEIVE_TOPICS:
       return {
         ...state,
-        error: false,
         list: action.page === 1 ? action.topics : [...state.list, ...action.topics],
-        isLoading: false
+        status: 'success'
       }
     case FAIL_TOPICS:
       return {
         ...state,
-        error: true,
-        isLoading: false,
+        status: 'error',
+        page: action.page > 1 ? action.page - 1 : 1, // 加载失败回退到上一页
         errorMsg: action.errMsg
       }
     case CHANGE_TAB:
@@ -39,6 +37,8 @@ export default (state = initState, action) => {
         scrollY: 0,
         list: [],
         pageSize: 15,
+        errMsg: '',
+        status: 'beforeunload',
         tab: action.tab
       }
     case RECORD_TOPIC_POS:

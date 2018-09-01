@@ -1,10 +1,9 @@
 import { REQUEST_USERINFO, RECEIVE_USERINFO } from '../actions'
 
 const initState = {
-  isLoading: false,
+  status: 'beforeunload', // beforeunload loading success error
   user: null,
-  hasError: false,
-  errorMsg: ''
+  errMsg: ''
 }
 
 export default (state = initState, action) => {
@@ -12,15 +11,14 @@ export default (state = initState, action) => {
     case REQUEST_USERINFO:
       return {
         ...state,
-        isLoading: true
+        status: 'loading'
       }
     case RECEIVE_USERINFO:
       return {
         ...state,
-        isLoading: false,
         user: action.data,
-        hasError: !action.success,
-        errorMsg: action.error_msg || ''
+        status: action.success ? 'success' : 'error',
+        errMsg: !action.success && action.error_msg
       }
     default:
       return state

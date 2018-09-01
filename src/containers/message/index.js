@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import { getMessage, showSnackBar } from '../../actions'
+import ErrorPage from '../../components/Error'
 import { Section, Empty, Loading } from '../../components/Message'
 import Pixel from '../../utils'
 import styles from './styles'
@@ -37,12 +38,16 @@ class Topic extends Component {
   }
   componentDidMount() {
     const { getMessage } = this.props
+    window.scrollY && window.scrollTo(0, 0)
     getMessage(true)
   }
   render() {
-    const { isLoading, classes, messages, hasnotReadMessages } = this.props
-    if (isLoading) {
+    const { loading, errMsg, error, classes, messages, hasnotReadMessages } = this.props
+    if (loading) {
       return <Loading text="Loading..." />
+    }
+    if (error) {
+      return <ErrorPage>{errMsg}</ErrorPage>
     }
     const messageList = [{
       title: '通知列表',
@@ -81,10 +86,12 @@ Topic.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const { message: { hasnotReadMessages, hasReadMessages, isLoading }, userInfo: { accesstoken } } = state
+  const { message: { status, errMsg, hasnotReadMessages, hasReadMessages }, userInfo: { accesstoken } } = state
   return {
+    error: status === 'error',
+    errMsg,
     messages: hasnotReadMessages.concat(hasReadMessages),
-    isLoading,
+    loading: status === 'loading' || status === 'beforeunload',
     accesstoken,
     hasnotReadMessages: hasnotReadMessages.length
   }
