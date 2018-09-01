@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch
 } from 'react-router-dom'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'

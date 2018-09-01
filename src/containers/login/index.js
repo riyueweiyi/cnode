@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { reset } from 'redux-form'
 import compose from 'lodash/fp/flowRight'
-import qs from 'query-string'
 import { connect } from 'react-redux'
 import { login, hideLoginModal } from '../../actions'
 import { LoginForm, ModalWrapper } from '../../components/Login'
@@ -10,6 +9,15 @@ class Login extends Component {
   static defaultProps = {
     modal: false, // 是否作为 modal 打开
     closeBtn: false, // modal 打开是否显示关闭按钮
+  }
+  getParameterByName(name, url) {
+    if (!url) url = window.location.href
+    name = name.replace(/[\[\]]/g, '\\$&')
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+    const results = regex.exec(url)
+    if (!results) return null
+    if (!results[2]) return ''
+    return decodeURIComponent(results[2].replace(/\+/g, ' '))
   }
   onSubmit = (values) => {
     this.props.login(values).then(res => {
@@ -21,7 +29,8 @@ class Login extends Component {
         if (modal) {
           hideLoginModal()
         } else {
-          history.replace(`/${qs.parse(location.search).redirectUrl}`)
+          const url = this.getParameterByName('redirectUrl', location.search)
+          history.replace(`/${url}`)
         }
       }
     })
