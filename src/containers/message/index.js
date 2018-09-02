@@ -91,7 +91,7 @@ const mapStateToProps = (state) => {
     error: status === 'error',
     errMsg,
     messages: hasnotReadMessages.concat(hasReadMessages),
-    loading: status === 'loading' || status === 'beforeunload',
+    loading: status === 'loading' || status === 'beforeload',
     accesstoken,
     hasnotReadMessages: hasnotReadMessages.length
   }

@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
     error: status === 'error',
     errMsg,
     user,
-    loading: ['beforeunload', 'loading'].some(i => i === status),
+    loading: ['beforeload', 'loading'].some(i => i === status),
     loginName
   }
 }

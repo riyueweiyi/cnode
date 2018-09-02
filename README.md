@@ -21,7 +21,6 @@
  ![二维码](https://github.com/riyueweiyi/cnode/raw/master/qrcode.png)
 
 ### 4. 如何运行本项目？
->cnode项目是使用[Create React App](https://github.com/facebookincubator/create-react-app)工具生成的项目结构，更多功能请参考官方文档。
 
 ```
     git clone https://github.com/riyueweiyi/cnode.git
@@ -30,6 +29,9 @@
     yarn start // 启动开发环境
     yarn build // 生产环境构建
 ```
+
+>cnode项目是使用[Create React App](https://github.com/facebookincubator/create-react-app)工具生成的项目结构，更多功能请参考官方文档。
+
 ### 5. 总结一下
 
 * 使用 **xhr** 对象实现了一个简洁版的 **Ajax**，通过返回 **Promise** 支持 **async await** 特性和链式调用。
@@ -40,7 +42,7 @@
 ### 6. todo
 
 * 完善页面 **入场/出场** 动画及交互
-* **redux** 代码有些冗余，进一步优化重构
+* 代码有些冗余，需要进一步优化重构
 
 ---
 

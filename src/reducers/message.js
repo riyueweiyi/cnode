@@ -1,7 +1,7 @@
 import { REQUEST_MESSAGE, FAIL_MESSAGE, RECEIVE_MESSAGE } from '../actions'
 
 const initState = {
-  status: 'beforeunload', // 请求状态 beforeunload loading success error
+  status: 'beforeload', // 请求状态 beforeload loading success error
   errMsg: '',
   hasReadMessages: [],
   hasnotReadMessages: []

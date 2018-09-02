@@ -2,7 +2,7 @@ import { RECEIVE_TOPICS, REQUEST_NEXT_PAGE_TOPIC_LIST, REQUEST_TOPICS, RECORD_TO
 
 const initState = {
   list: [],
-  status: 'beforeunload', // beforeunload loading success error
+  status: 'beforeload', // beforeload loading success error
   tab: '',
   page: 1,
   pageSize: 15,
@@ -38,7 +38,7 @@ export default (state = initState, action) => {
         list: [],
         pageSize: 15,
         errMsg: '',
-        status: 'beforeunload',
+        status: 'beforeload',
         tab: action.tab
       }
     case RECORD_TOPIC_POS:

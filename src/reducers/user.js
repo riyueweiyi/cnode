@@ -1,7 +1,7 @@
 import { REQUEST_USERINFO, RECEIVE_USERINFO } from '../actions'
 
 const initState = {
-  status: 'beforeunload', // beforeunload loading success error
+  status: 'beforeload', // beforeload loading success error
   user: null,
   errMsg: ''
 }

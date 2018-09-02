@@ -33,6 +33,10 @@ class Topic extends Component {
     window.scrollY && window.scrollTo(0, 0)
     this.getTopicDetail()
   }
+  componentWillUnmount() {
+    const { showReplyDrawerModal, hideReplyDrawer } = this.props
+    showReplyDrawerModal && hideReplyDrawer()
+  }
   // 返回
   goBack = () => {
     this.props.history.go(-1)
@@ -156,7 +160,7 @@ const mapStateToProps = (state) => {
     error: status === 'error',
     errMsg,
     detail,
-    loading: status === 'beforeunload' || status === 'loading',
+    loading: status === 'beforeload' || status === 'loading',
     accesstoken,
     showReplyDrawerModal,
     reply

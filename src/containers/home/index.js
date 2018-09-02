@@ -6,6 +6,7 @@ import ProfileIcon from '@material-ui/icons/AccountCircle'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Typography from '@material-ui/core/Typography'
 import compose from 'lodash/fp/flowRight'
+import { Link } from 'react-router-dom'
 import { chagnTabHandle, recordTopicPos, requestNextPageTopicList, initPageData } from '../../actions'
 import { Tab, FabBtn, Appbar, CardItem, CircularProgress } from '../../components/Home'
 
@@ -21,6 +22,8 @@ class Home extends Component {
     window.addEventListener('scroll', this.loadNextPageData)
   }
   componentWillUnmount() {
+    // 记录浏览位置
+    this.recordScrollY()
     window.removeEventListener('scroll', this.loadNextPageData)
   }
   loadNextPageData = (e) => {
@@ -32,18 +35,12 @@ class Home extends Component {
       requestNextPageTopicList()
     }
   }
-  publishBtnClickHandle = () => {
-    const { history } = this.props
-    this.recordScrollY()
-    history.push('/publish')
-  }
   chagnTabHandle = (e, value) => {
     const { chagnTabHandle } = this.props
     chagnTabHandle(value)
   }
   goUserPage = () => {
     const { accesstoken, loginName, history } = this.props
-    this.recordScrollY()
     history.push(accesstoken ? `/user/${loginName}` : '/login?redirectUrl=user')
   }
   recordScrollY = () => {
@@ -53,13 +50,7 @@ class Home extends Component {
   }
   cardItemClickHandle = (item) => {
     const { history } = this.props
-    this.recordScrollY()
     history.push(`/topic/${item.id}`)
-  }
-  goMessage = () => {
-    const { history } = this.props
-    this.recordScrollY()
-    history.push('/message')
   }
   render() {
     const { list, firstPageLoading, loading, error, errMsg, tab, accesstoken } = this.props
@@ -67,7 +58,7 @@ class Home extends Component {
       <Appbar right={
         <React.Fragment>
           {
-            accesstoken && <IconButton color="inherit" onClick={this.goMessage}>
+            accesstoken && <IconButton color="inherit" component={Link} to="/message">
               <Notifications />
             </IconButton>
           }
@@ -94,7 +85,7 @@ class Home extends Component {
         }
       </Tab>
       {loading && <LinearProgress />}
-      <FabBtn onClick={this.publishBtnClickHandle} />
+      <FabBtn component={Link} to="/publish" />
     </div>
   }
 }

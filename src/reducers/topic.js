@@ -2,7 +2,7 @@ import { REQUEST_TOPIC_DETAIL, RECEIVE_TOPIC_DETAIL, SHOW_REPLY_DRAWER, HIDE_REP
 
 const initState = {
   detail: null,
-  status: 'beforeunload', // beforeunload loading success error
+  status: 'beforeload', // beforeload loading success error
   errMsg: '',
   reply: null,
   showReplyDrawer: false

@@ -5,8 +5,8 @@ import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import styles from './styles'
 
-const FabBtn = ({ classes, onClick }) => (
-  <Button variant="fab" className={classes.fab} onClick={onClick} color="primary" aria-label="Add">
+const FabBtn = ({ classes, onClick, ...props }) => (
+  <Button variant="fab" className={classes.fab} onClick={onClick} {...props} color="primary" aria-label="Add">
     <AddIcon />
   </Button>
 )
