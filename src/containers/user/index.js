@@ -11,8 +11,10 @@ import ErrorPage from '../../components/Error'
 class User extends Component {
   componentDidMount() {
     const { getUserinfo, match, loginName } = this.props
+    window.scrollY && window.scrollTo(0, 0)
     getUserinfo(match.params.loginname || loginName)
   }
+  // 查看主题详情
   listItemClickHandle = ({ id }) => {
     this.props.history.push(`/topic/${id}`)
   }

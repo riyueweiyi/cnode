@@ -35,19 +35,22 @@ class Home extends Component {
       requestNextPageTopicList()
     }
   }
+  // 切换tab
   chagnTabHandle = (e, value) => {
     const { chagnTabHandle } = this.props
     chagnTabHandle(value)
   }
+  // 查看个人主页
   goUserPage = () => {
     const { accesstoken, loginName, history } = this.props
     history.push(accesstoken ? `/user/${loginName}` : '/login?redirectUrl=user')
   }
   recordScrollY = () => {
     const { tab, page, pageSize, recordTopicPos } = this.props
-    // 记录滚动的位置和主题总数
+    // 记录用户浏览的位置
     recordTopicPos(tab, window.scrollY, page, pageSize)
   }
+  // 查看主题详情
   cardItemClickHandle = (item) => {
     const { history } = this.props
     history.push(`/topic/${item.id}`)

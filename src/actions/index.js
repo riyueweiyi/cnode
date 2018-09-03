@@ -21,12 +21,14 @@ export const CHANGE_TAB = 'change_tab'
 export const RECORD_TOPIC_POS = 'record_topic_pos'
 export const REQUEST_NEXT_PAGE_TOPIC_LIST = 'request_next_page_topic_list'
 
+// 请求主题
 export function requestTopics() {
   return {
     type: REQUEST_TOPICS
   }
 }
 
+// 成功响应主题
 export function receiveTopics(topics, page) {
   return {
     type: RECEIVE_TOPICS,
@@ -35,6 +37,7 @@ export function receiveTopics(topics, page) {
   }
 }
 
+// 响应主题失败
 export function failTopics(errMsg) {
   return {
     type: FAIL_TOPICS,
@@ -42,6 +45,7 @@ export function failTopics(errMsg) {
   }
 }
 
+// 记录用户浏览主题位置
 export function recordTopicPos(tab, scrollY, page, pageSize) {
   return {
     type: RECORD_TOPIC_POS,
@@ -52,12 +56,14 @@ export function recordTopicPos(tab, scrollY, page, pageSize) {
   }
 }
 
+// 获取下一页主题
 export function requestNextPageTopic() {
   return {
     type: REQUEST_NEXT_PAGE_TOPIC_LIST
   }
 }
 
+// 切换浏览主题tab
 export function changeTab(tab) {
   return {
     type: CHANGE_TAB,
@@ -65,17 +71,20 @@ export function changeTab(tab) {
   }
 }
 
+// 显示登录弹窗
 export function showLoginModal() {
   return {
     type: SHOW_LOGIN_MODAL
   }
 }
 
+// 隐藏登录弹窗
 export function hideLoginModal() {
   return {
     type: HIDE_LOGIN_MODAL
   }
 }
+
 // 登陆成功
 export function receiveAccesstoken(accesstoken, loginName) {
   return {
@@ -85,6 +94,7 @@ export function receiveAccesstoken(accesstoken, loginName) {
   }
 }
 
+// 登陆失败
 export function errorAccesstoken() {
   return {
     type: ERROR_ACCESSTOKEN
@@ -100,24 +110,28 @@ export function showSnackBar(content, variant) {
   }
 }
 
+// 隐藏信息
 export function hideSnackBar() {
   return {
     type: HIDE_SNACK_BAR
   }
 }
 
+// 请求消息
 export function requestMessage() {
   return {
     type: REQUEST_MESSAGE
   }
 }
 
+// 请求主题详情
 export function requestTopicDetail() {
   return {
     type: REQUEST_TOPIC_DETAIL
   }
 }
 
+// 获取主题详情
 export function receiveTopicDetail(res) {
   return {
     type: RECEIVE_TOPIC_DETAIL,
@@ -125,6 +139,7 @@ export function receiveTopicDetail(res) {
   }
 }
 
+// 响应消息
 export function receiveMessage(hasReadMessage, hasnotReadMessage) {
   return {
     type: RECEIVE_MESSAGE,
@@ -133,6 +148,7 @@ export function receiveMessage(hasReadMessage, hasnotReadMessage) {
   }
 }
 
+// 响应消息失败
 export function failMessage(errMsg) {
   return {
     type: FAIL_MESSAGE,
@@ -140,12 +156,14 @@ export function failMessage(errMsg) {
   }
 }
 
+// 请求用户信息
 export function requestUserinfo() {
   return {
     type: REQUEST_USERINFO
   }
 }
 
+// 响应用户信息
 export function receiveUserinfo(res) {
   return {
     type: RECEIVE_USERINFO,
@@ -153,6 +171,7 @@ export function receiveUserinfo(res) {
   }
 }
 
+// 显示评论drawer
 export function showReplyDrawer(reply) {
   return {
     type: SHOW_REPLY_DRAWER,
@@ -160,6 +179,7 @@ export function showReplyDrawer(reply) {
   }
 }
 
+// 隐藏评论drawer
 export function hideReplyDrawer() {
   return {
     type: HIDE_REPLY_DRAWER
@@ -179,7 +199,6 @@ export function login(body) {
     })
   }
 }
-
 
 // 加载主题
 export function getTopicList(tab, page, limit) {
@@ -253,6 +272,7 @@ export function getMessage(showLoading) {
   }
 }
 
+// 获取用户信息
 export function getUserinfo(loginname) {
   return (dispatch) => {
     dispatch(requestUserinfo())
@@ -266,6 +286,7 @@ export function getUserinfo(loginname) {
   }
 }
 
+// 获取主题详情
 export function getTopicDetail(id, showLoading) {
   return (dispatch, getState) => {
     const { userInfo: { accesstoken } } = getState()

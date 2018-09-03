@@ -9,13 +9,20 @@ import IconButton from '@material-ui/core/IconButton'
 import ThumbUpIcon from '@material-ui/icons/ThumbUp'
 import styles from './styles'
 
-const ReplyItem = ({ item, classes, replyItemClickHandle, upClickHanle }) => {
+const ReplyItem = ({ item, classes, replyItemClickHandle, upClickHandle, avatarClickHandle }) => {
   return <ListItem
-      className={classes.listItem}
-      button
-      onClick={_ => replyItemClickHandle(item)}
-    >
-    <Avatar src={item.author.avatar_url} />
+    className={classes.listItem}
+    button
+    onClick={_ => replyItemClickHandle(item)}
+  >
+    <Avatar
+      src={item.author.avatar_url}
+      onClick={e => {
+        e.stopPropagation()
+        avatarClickHandle(item.author.loginname)
+        }
+      }
+    />
     <ListItemText
       primary={item.author.loginname}
       secondary={
@@ -23,7 +30,7 @@ const ReplyItem = ({ item, classes, replyItemClickHandle, upClickHanle }) => {
       }
     />
     <ListItemSecondaryAction>
-      <IconButton aria-label="Up" onClick={_ => upClickHanle(item)} color={item.is_uped ? 'secondary' : 'default'} className={classes.ups}>
+      <IconButton aria-label="Up" onClick={_ => upClickHandle(item)} color={item.is_uped ? 'secondary' : 'default'} className={classes.ups}>
         <ThumbUpIcon className={classes.upsIcon} /> {item.ups.length ? item.ups.length : ''}
       </IconButton>
     </ListItemSecondaryAction>

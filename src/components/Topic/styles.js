@@ -1,4 +1,9 @@
 const styles = theme => ({
+  avatarWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: theme.spacing.unit * 2
+  },
   loginname: {
     marginLeft: theme.spacing.unit * 2
   },
@@ -55,6 +60,7 @@ const styles = theme => ({
   formFixed: {
     position: 'fixed',
     bottom: 0,
+    zIndex: 9,
     width: '100%',
     background: '#fff',
     padding: '8px 0 0px 16px',

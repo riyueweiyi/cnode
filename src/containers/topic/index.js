@@ -37,10 +37,16 @@ class Topic extends Component {
     const { showReplyDrawerModal, hideReplyDrawer } = this.props
     showReplyDrawerModal && hideReplyDrawer()
   }
+  // 查看个人主页
+  avatarClickHandle = (loginname) => {
+    const { history } = this.props
+    history.push(`/user/${loginname}`)
+  }
   // 返回
   goBack = () => {
     this.props.history.go(-1)
   }
+  // 获取主题详情
   getTopicDetail = (showLoading = true) => {
     const { match, getTopicDetailById } = this.props
     getTopicDetailById(match.params.id, showLoading)
@@ -61,7 +67,7 @@ class Topic extends Component {
     }).catch(res => showSnackBar(res.error_msg, 'error'))
   }
   // 点赞
-  upClickHanle = (item) => {
+  upClickHandle = (item) => {
     const { accesstoken, showSnackBar, showLoginModal } = this.props
     if (!accesstoken) {
       showLoginModal()
@@ -112,14 +118,15 @@ class Topic extends Component {
       return <ErrorPage>{errMsg}</ErrorPage>
     }
     return <Paper>
-      <Tabbar goBack={this.goBack} detail={detail} />
+      <Tabbar goBack={this.goBack} onClick={this.avatarClickHandle} author={detail.author} />
       <Content detail={detail} />
       <List subheader={<ListSubheader>评论</ListSubheader>}>
         {
           detail.replies.map(item => <ReplyItem
             key={item.id}
             item={item}
-            upClickHanle={this.upClickHanle}
+            avatarClickHandle={this.avatarClickHandle}
+            upClickHandle={this.upClickHandle}
             replyItemClickHandle={showReplyDrawer}
           />)
         }
