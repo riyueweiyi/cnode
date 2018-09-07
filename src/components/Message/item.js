@@ -12,7 +12,7 @@ import styles from './styles'
 import Pixel from '../../utils'
 
 const timeDifference = Pixel.utils.timeDifference
-const Item = ({ item, onClick, classes }) => {
+const Item = ({ item, onClick = _ => {}, classes }) => {
   return <React.Fragment>
     <ListItem
       button

@@ -12,8 +12,7 @@ const styles = theme => ({
   },
 })
 
-function ErrorPage(props) {
-  const { classes, children } = props
+function ErrorPage({ classes, children }) {
   return (
     <div>
       <Paper className={classes.root} elevation={0}>

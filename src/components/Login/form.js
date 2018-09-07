@@ -10,8 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import styles from './style'
 import { renderTextField } from '../Form/field'
 
-const Login = (props) => {
-  const { classes, handleSubmit, submitting } = props
+const Login = ({ classes, handleSubmit = _ => {}, submitting = false }) => {
   return <main className={classes.layout}>
     <Typography
       variant="headline"

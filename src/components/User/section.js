@@ -12,7 +12,10 @@ const Section = function ({ section, listItemClickHandle, classes }) {
     className={classes.listSection}
   >
     <ul className={classes.ul}>
-      <ListSubheader className={classes.listSubTitle}><Icon className={classes.listSubTitleIcon} /> {section.title}</ListSubheader>
+      <ListSubheader className={classes.listSubTitle}>
+        <Icon className={classes.listSubTitleIcon} />
+        {section.title}
+      </ListSubheader>
       {section.topics.map(topic => (
         <Item key={topic.id} onClick={_ => listItemClickHandle(topic)} topic={topic} />
       ))}

@@ -17,7 +17,7 @@ const tab = {
   'job': '招聘'
 }
 const timeDifference = Pixel.utils.timeDifference
-const CardItem = ({ classes, onClick, item }) => {
+const CardItem = ({ classes, onClick = _ => {}, item }) => {
   return <Card onClick={_ => onClick(item)} className={classes.card}>
     <CardHeader
       avatar={

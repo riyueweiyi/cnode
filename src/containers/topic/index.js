@@ -101,7 +101,7 @@ class Topic extends Component {
     Pixel.post(`/topic/${match.params.id}/replies`, {
       accesstoken,
       content,
-      ...(reply ? { reply_id: reply.id } : {})
+      ...(reply && { reply_id: reply.id })
     }).then(_ => {
       showSnackBar('回复成功', 'success')
       reset('replyForm')
@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
     error: status === 'error',
     errMsg,
     detail,
-    loading: status === 'beforeload' || status === 'loading',
+    loading: ['beforeload', 'loading'].includes(status),
     accesstoken,
     showReplyDrawerModal,
     reply

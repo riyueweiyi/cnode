@@ -201,7 +201,7 @@ export function login(body) {
 }
 
 // 加载主题
-export function getTopicList(tab, page, limit) {
+export function getTopicList(tab = '', page = 1, limit = 15) {
   return (dispatch) => {
     dispatch(requestTopics())
     return Pixel.get('/topics', { tab, page, limit }).then(res => {
@@ -217,16 +217,16 @@ export function getTopicList(tab, page, limit) {
 // 初始化页面数据
 export function initPageData() {
   return (dispatch, getState) => {
-    const { topics: {tab, page, pageSize } } = getState()
+    const { topics: { tab, page, pageSize } } = getState()
     return dispatch(getTopicList(tab, 1, page * pageSize)) // 加载所有数据
   }
 }
 
 // 切换主题tab
 export function chagnTabHandle(tabValue) {
-  return (dispatch, getState ) => {
+  return (dispatch, getState) => {
     dispatch(changeTab(tabValue))
-    const { topics: {tab, page, pageSize } } = getState()
+    const { topics: { tab, page, pageSize } } = getState()
     return dispatch(getTopicList(tab, page, pageSize)) // 返回promise
   }
 }
@@ -235,7 +235,7 @@ export function chagnTabHandle(tabValue) {
 export function requestNextPageTopicList() {
   return (dispatch, getState) => {
     dispatch(requestNextPageTopic())
-    const { topics: { tab, page, pageSize }} = getState()
+    const { topics: { tab, page, pageSize } } = getState()
     return dispatch(getTopicList(tab, page, pageSize))
   }
 }
