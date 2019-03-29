@@ -20,8 +20,8 @@ const theme = createMuiTheme({
   },
 })
 
-const userInfo = JSON.parse(sessionStorage.getItem('userInfo')) || {}
-const tabInfo = JSON.parse(sessionStorage.getItem('tabInfo')) || {}
+const userInfo = JSON.parse(sessionStorage.getItem('userInfo') as string) || {}
+const tabInfo = JSON.parse(sessionStorage.getItem('tabInfo') as string) || {}
 const store = configureStore()
 store.dispatch(receiveAccesstoken(userInfo.accesstoken, userInfo.loginName))
 store.dispatch(recordTopicPos(tabInfo.tab, tabInfo.scrollY, tabInfo.page, tabInfo.pageSize))
