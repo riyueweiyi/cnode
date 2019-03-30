@@ -12,6 +12,7 @@ import routes from './routes'
 import registerServiceWorker from './registerServiceWorker'
 import { receiveAccesstoken, recordTopicPos } from './actions'
 import App from './containers/App'
+import { ILoginInfo, TopicPos } from './type'
 import './reset.css'
 
 const theme = createMuiTheme({
@@ -20,11 +21,11 @@ const theme = createMuiTheme({
   },
 })
 
-const userInfo = JSON.parse(sessionStorage.getItem('userInfo') as string) || {}
-const tabInfo = JSON.parse(sessionStorage.getItem('tabInfo') as string) || {}
+const userInfo: ILoginInfo = JSON.parse(sessionStorage.getItem('userInfo') as string) || {}
+const tabInfo: TopicPos = JSON.parse(sessionStorage.getItem('tabInfo') as string) || {}
 const store = configureStore()
-store.dispatch(receiveAccesstoken(userInfo.accesstoken, userInfo.loginName))
-store.dispatch(recordTopicPos(tabInfo.tab, tabInfo.scrollY, tabInfo.page, tabInfo.pageSize))
+store.dispatch(receiveAccesstoken(userInfo))
+store.dispatch(recordTopicPos(tabInfo))
 
 ReactDOM.render(
   <Provider store={store}>
