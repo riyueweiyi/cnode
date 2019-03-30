@@ -1,4 +1,4 @@
-import { SFC, ReactNode } from 'react'
+import * as React from 'react'
 import classNames from 'classnames'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ErrorIcon from '@material-ui/icons/Error'
@@ -20,13 +20,13 @@ const variantIcon = {
 interface IMySnackBar {
   classes: any,
   classNames: any,
-  message: string | ReactNode,
+  message: string | React.ReactNode,
   onClose: (event: any) => void,
   variant: 'success' | 'warning' | 'error' | 'info',
   [k: string]: any
 }
 
-const MySnackbarContent: SFC<IMySnackBar> = ({ classes, className, message, onClose, variant, ...other }) => {
+const MySnackbarContent: React.SFC<IMySnackBar> = ({ classes, className, message, onClose, variant, ...other }) => {
   const Icon = variantIcon[variant]
 
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { renderTextField } from '../Form/field'
@@ -7,14 +7,13 @@ import ArrowForward from '@material-ui/icons/ArrowForward'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import validate from './validate'
 import styles from './style'
+import { PublicTopic } from '../../type'
 
 interface ITitleForm {
-  classes: any,
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
-  previousPage: (e: React.MouseEvent) => void
+  previousPage: () => void
 }
 
-const TitleForm: React.SFC<ITitleForm> = ({ classes, handleSubmit, previousPage }) => {
+const TitleForm: React.SFC<ITitleForm & { classes: any } & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit, previousPage }) => {
   return <form onSubmit={handleSubmit}>
     <Field
       name="title"
@@ -43,11 +42,12 @@ const TitleForm: React.SFC<ITitleForm> = ({ classes, handleSubmit, previousPage 
   </form>
 }
 
-const TitleFormWrapper = reduxForm({
+const Form = withStyles(styles as any)(TitleForm as any)
+const TitleFormWrapper = reduxForm<PublicTopic, ITitleForm>({
   form: 'publishForm',
   destroyOnUnmount: false,        // <------ preserve form data
   forceUnregisterOnUnmount: true,
   validate
-})(TitleForm as any)
+})(Form as any)
 
-export default withStyles(styles as any)(TitleFormWrapper as any)
+export default TitleFormWrapper

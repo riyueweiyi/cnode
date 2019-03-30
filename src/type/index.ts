@@ -79,8 +79,26 @@ export interface IUserTopic {
 }
 
 export interface IReply {
+  id: string,
   is_uped: boolean,
   ups: [],
   author: IAuthor,
   content: string
+}
+
+export interface IReplyForm {
+  reply: string,
+  [k: string]: any
+}
+
+export interface IPublishForm {
+  title: string,
+  content: string,
+  tab: string,
+  [k: string]: any
+}
+
+export interface ILoginForm {
+  accesstoken: string,
+  [k: string]: any
 }

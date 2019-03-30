@@ -6,8 +6,10 @@ import {
   AllTabKey,
   ILoginInfo,
   LoadTopicsParams,
-  PublicTopic
+  PublicTopic,
+  ILoginForm
 } from '../type'
+import { State } from '../reducers'
 export enum ActionType {
   RECEIVE_ACCESSSTOKEN,
   ERROR_ACCESSTOKEN,
@@ -210,7 +212,7 @@ export function hideReplyDrawer(): IAppAction {
 }
 
 // 登陆
-export function login(body: { accesstoken: string }) {
+export function login(body: ILoginForm) {
   return async (dispatch: Dispatch<IAppAction>) => {
     try {
       const res = await Pixel.post('/accesstoken', body);
@@ -246,7 +248,7 @@ export function getTopicList(params: LoadTopicsParams) {
 
 // 初始化页面数据
 export function initPageData() {
-  return (dispatch: Dispatch<any>, getState: Function) => {
+  return (dispatch: Dispatch<any>, getState: () => State) => {
     const { topics: { tab, page, pageSize } } = getState()
     return dispatch(getTopicList({
       tab: tab as AllTabKey, 
@@ -258,7 +260,7 @@ export function initPageData() {
 
 // 切换主题tab
 export function chagnTabHandle(tabValue: AllTabKey) {
-  return (dispatch: Dispatch<any>, getState: Function) => {
+  return (dispatch: Dispatch<any>, getState: () => State) => {
     dispatch(changeTab(tabValue))
     const { topics: { tab, page, pageSize: limit } } = getState()
     return dispatch(getTopicList({ tab: tab as AllTabKey, page, limit})) // 返回promise
@@ -267,7 +269,7 @@ export function chagnTabHandle(tabValue: AllTabKey) {
 
 // 获取下一页主题
 export function requestNextPageTopicList() {
-  return (dispatch: Dispatch<any>, getState: Function) => {
+  return (dispatch: Dispatch<any>, getState: () => State) => {
     dispatch(requestNextPageTopic())
     const { topics: { tab, page, pageSize: limit } } = getState()
     return dispatch(getTopicList({ tab: tab as AllTabKey, page, limit }))
@@ -276,7 +278,7 @@ export function requestNextPageTopicList() {
 
 // 发布主题
 export function publish(body: PublicTopic) {
-  return async (dispatch: Dispatch<IAppAction>, getState: Function) => {
+  return async (dispatch: Dispatch<IAppAction>, getState: () => State) => {
     const { userInfo: { accesstoken } } = getState()
     try {
       const res = await Pixel.post('/topics', {
@@ -294,7 +296,7 @@ export function publish(body: PublicTopic) {
 
 // 获取消息
 export function getMessage(showLoading: boolean) {
-  return async (dispatch: Dispatch<IAppAction>, getState: Function) => {
+  return async (dispatch: Dispatch<IAppAction>, getState: () => State) => {
     const { userInfo: { accesstoken } } = getState()
     showLoading && dispatch(requestMessage())
     try {
@@ -327,7 +329,7 @@ export function getUserinfo(loginname: ILoginName) {
 
 // 获取主题详情
 export function getTopicDetail(id: string, showLoading: boolean) {
-  return async (dispatch: Dispatch<IAppAction>, getState: Function) => {
+  return async (dispatch: Dispatch<IAppAction>, getState: () => State) => {
     const { userInfo: { accesstoken } } = getState()
     showLoading && dispatch(requestTopicDetail())
     try {

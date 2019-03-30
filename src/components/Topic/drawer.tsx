@@ -4,14 +4,14 @@ import Drawer from '@material-ui/core/Drawer'
 import Typography from '@material-ui/core/Typography'
 import ReplyForm from './form'
 import styles from './styles'
-import { IAuthor } from '../../type'
+import { IAuthor, IReplyForm } from '../../type'
 
 interface IDrawer {
   classes: any,
   reply: {
     author: IAuthor
   },
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+  onSubmit: (e: IReplyForm) => void,
   show: boolean,
   onClose: (e: React.MouseEvent) => void
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import withStyles from '@material-ui/core/styles/withStyles'
 import ArrowForward from '@material-ui/icons/ArrowForward'
@@ -7,13 +7,12 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import { renderTextField } from '../Form/field'
 import styles from './style'
 import validate from './validate'
+import { PublicTopic } from '../../type'
 
 interface IContentForm {
-  classes: any,
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
-  previousPage: (e: React.MouseEvent) => void
+  previousPage: () => void
 }
-const ContentForm: React.SFC<IContentForm> = ({ classes, handleSubmit, previousPage }) => {
+const ContentForm: React.SFC<IContentForm & { classes: any } & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit, previousPage }) => {
   return <form onSubmit={handleSubmit}>
     <Field
       name="content"
@@ -29,7 +28,7 @@ const ContentForm: React.SFC<IContentForm> = ({ classes, handleSubmit, previousP
         color="secondary"
         onClick={previousPage}
       >
-      <ArrowBack/>
+        <ArrowBack />
         返回
       </Button>
       <Button
@@ -37,17 +36,18 @@ const ContentForm: React.SFC<IContentForm> = ({ classes, handleSubmit, previousP
         color="primary"
       >
         提交
-        <ArrowForward/>
+        <ArrowForward />
       </Button>
     </div>
   </form>
 }
 
-const ContentFormWrapper = reduxForm({
+const Form = withStyles(styles as any)(ContentForm as any)
+const ContentFormWrapper = reduxForm<PublicTopic, IContentForm>({
   form: 'publishForm',
   destroyOnUnmount: false,        // <------ preserve form data
   forceUnregisterOnUnmount: true,
   validate
-})(ContentForm as any)
+})(Form as any)
 
-export default withStyles(styles as any)(ContentFormWrapper as any)
+export default ContentFormWrapper

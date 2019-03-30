@@ -1,20 +1,19 @@
 import * as React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 import ArrowForward from '@material-ui/icons/ArrowForward'
-import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { renderSelectField } from '../Form/field'
 import validate from './validate'
 import styles from './style'
+import { PublicTopic } from '../../type'
 
 interface ITabForm {
-  classes: any,
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+  classes: any
 }
 
-const TabForm: React.SFC<ITabForm> = ({ classes, handleSubmit }) => {
+const TabForm: React.SFC<ITabForm & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit }) => {
   return <form onSubmit={handleSubmit}>
       <Field
         name="tab"
@@ -38,15 +37,12 @@ const TabForm: React.SFC<ITabForm> = ({ classes, handleSubmit }) => {
     </form>
 }
 
-TabForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-const TabFormWrapper = reduxForm({
+const Form = withStyles(styles as any)(TabForm as any)
+const TabFormWrapper = reduxForm<PublicTopic>({
   form: 'publishForm',
   destroyOnUnmount: false,        // <------ preserve form data
   forceUnregisterOnUnmount: true,
   validate
-})(TabForm as any)
+})(Form as any)
 
-export default withStyles(styles as any)(TabFormWrapper as any)
+export default TabFormWrapper

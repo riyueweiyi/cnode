@@ -19,4 +19,14 @@ const reducers = {
   form: reduxFormReducer
 }
 
+export type State = {
+  userInfo: ILogin,
+  snackBar: ISnackBar,
+  message: IMessage,
+  user: IUserType,
+  topic: ITopicType,
+  loginModal: IModalType,
+  topics: ITopicsType
+}
+
 export const rootReducer = combineReducers(reducers)

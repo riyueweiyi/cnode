@@ -1,5 +1,4 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -8,14 +7,15 @@ import TabForm from './tab'
 import TitleForm from './title'
 import ContentForm from './content'
 import styles from './style'
+import { PublicTopic } from '../../type'
 
 interface IPublishForm {
   classes: any,
-  page: 1 | 2 | 3,
-  nextPage: (e: React.MouseEvent) => void,
-  previousPage: (e: React.MouseEvent) => void,
-  goBack: (e: React.MouseEvent) => void,
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+  page: number,
+  nextPage: () => void,
+  previousPage: () => void,
+  goBack: () => void,
+  onSubmit: (e: PublicTopic) => void
 }
 
 const PublishForm: React.SFC<IPublishForm> = ({ classes, page, nextPage, previousPage, onSubmit, goBack }) => {
@@ -38,18 +38,6 @@ const PublishForm: React.SFC<IPublishForm> = ({ classes, page, nextPage, previou
       {page === 3 && <ContentForm previousPage={previousPage} onSubmit={onSubmit} />}
     </main>
   </React.Fragment>
-}
-
-PublishForm.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-PublishForm.defaultProps = {
-  page: 1,
-  nextPage: _ => { },
-  previousPage: _ => { },
-  goBack: _ => { },
-  onSubmit: _ => { }
 }
 
 export default withStyles(styles as any)(PublishForm)

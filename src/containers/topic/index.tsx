@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { connect } from 'react-redux'
 import { reset } from 'redux-form'
 import Paper from '@material-ui/core/Paper'
@@ -27,8 +27,54 @@ import {
 import LoginForm from '../login'
 import ErrorPage from '../../components/Error'
 import Pixel from '../../utils'
+import { State } from '../../reducers'
+import { Dispatch } from 'redux'
+import { IReply, IReplyForm } from '../../type'
 
-class Topic extends Component {
+interface IProps {
+  error: boolean,
+  errMsg: string,
+  detail: any,
+  loading: boolean,
+  accesstoken: string,
+  showReplyDrawerModal: boolean,
+  reply: any
+}
+const mapStateToProps = (state: State): IProps => {
+  const { topic: { status, errMsg, detail, showReplyDrawer: showReplyDrawerModal, reply }, userInfo: { accesstoken = '' } } = state
+  return {
+    error: status === 'error',
+    errMsg,
+    detail,
+    loading: ['beforeload', 'loading'].includes(status),
+    accesstoken,
+    showReplyDrawerModal,
+    reply
+  }
+}
+
+
+interface IPropsFn {
+  getTopicDetailById: (id: string, showLoading: boolean) => any,
+  reset: (a: string) => {},
+  showReplyDrawer: (reply: any) => {},
+  hideReplyDrawer: () => {},
+  showSnackBar: (a: string, b: string) => {},
+  showLoginModal: () => {}
+}
+const mapDispatchToProps = (dispatch: Dispatch<any>): IPropsFn => ({
+  getTopicDetailById: compose(dispatch, getTopicDetail),
+  reset: compose(dispatch, reset),
+  showReplyDrawer: compose(dispatch, showReplyDrawer),
+  hideReplyDrawer: compose(dispatch, hideReplyDrawer),
+  showSnackBar: compose(dispatch, showSnackBar),
+  showLoginModal: compose(dispatch, showLoginModal)
+})
+
+class Topic extends React.Component<IProps & IPropsFn & {
+  history: any,
+  match: any
+}> {
   componentDidMount() {
     window.scrollY && window.scrollTo(0, 0)
     this.getTopicDetail()
@@ -38,7 +84,7 @@ class Topic extends Component {
     showReplyDrawerModal && hideReplyDrawer()
   }
   // 查看个人主页
-  avatarClickHandle = (loginname) => {
+  avatarClickHandle = (loginname: string) => {
     const { history } = this.props
     history.push(`/user/${loginname}`)
   }
@@ -52,7 +98,7 @@ class Topic extends Component {
     getTopicDetailById(match.params.id, showLoading)
   }
   // 收藏主题
-  collectBtnClickHandle = (isCollect) => {
+  collectBtnClickHandle = (isCollect: boolean) => {
     const { match, accesstoken, showSnackBar, showLoginModal } = this.props
     if (!accesstoken) {
       showLoginModal()
@@ -67,7 +113,7 @@ class Topic extends Component {
     }).catch(res => showSnackBar(res.error_msg, 'error'))
   }
   // 点赞
-  upClickHandle = (item) => {
+  upClickHandle = (item: IReply) => {
     const { accesstoken, showSnackBar, showLoginModal } = this.props
     if (!accesstoken) {
       showLoginModal()
@@ -78,7 +124,7 @@ class Topic extends Component {
       .catch(_ => showSnackBar(_.error_msg, 'error'))
   }
   // 评论主题
-  onSubmit = (values) => {
+  onSubmit = (values: IReplyForm) => {
     const {
       match,
       accesstoken,
@@ -112,7 +158,7 @@ class Topic extends Component {
   render() {
     const { detail, errMsg, error, loading, reply, showReplyDrawerModal, showReplyDrawer, hideReplyDrawer } = this.props
     if (loading) {
-      return <Loading />
+      return <Loading text="loading..." />
     }
     if (error) {
       return <ErrorPage>{errMsg}</ErrorPage>
@@ -122,7 +168,7 @@ class Topic extends Component {
       <Content detail={detail} />
       <List subheader={<ListSubheader>评论</ListSubheader>}>
         {
-          detail.replies.map(item => <ReplyItem
+          detail.replies.map((item: IReply) => <ReplyItem
             key={item.id}
             item={item}
             avatarClickHandle={this.avatarClickHandle}
@@ -160,27 +206,5 @@ class Topic extends Component {
     </Paper>
   }
 }
-
-const mapStateToProps = (state) => {
-  const { topic: { status, errMsg, detail, showReplyDrawer: showReplyDrawerModal, reply }, userInfo: { accesstoken } } = state
-  return {
-    error: status === 'error',
-    errMsg,
-    detail,
-    loading: ['beforeload', 'loading'].includes(status),
-    accesstoken,
-    showReplyDrawerModal,
-    reply
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  getTopicDetailById: compose(dispatch, getTopicDetail),
-  reset: compose(dispatch, reset),
-  showReplyDrawer: compose(dispatch, showReplyDrawer),
-  hideReplyDrawer: compose(dispatch, hideReplyDrawer),
-  showSnackBar: compose(dispatch, showSnackBar),
-  showLoginModal: compose(dispatch, showLoginModal)
-})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Topic)

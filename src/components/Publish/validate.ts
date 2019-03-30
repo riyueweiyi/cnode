@@ -1,13 +1,8 @@
-import { PublicTopic } from '../../type'
+import { PublicTopic, IPublishForm } from '../../type'
 
-interface IMap {
-  title: string,
-  content: string,
-  tab: string,
-  [k: string]: any
-}
+
 function validate(values: PublicTopic) {
-  const map: IMap = {
+  const map: IPublishForm = {
     title: '标题',
     tab: '发布板块',
     content: '主题内容'

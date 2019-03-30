@@ -1,10 +1,43 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '../components/SnackbarContent'
-import { hideSnackBar } from '../actions'
+import { hideSnackBar, IAppAction } from '../actions'
+import { TopicPos, AllTabKey } from '../type'
+import { State } from '../reducers'
 
-class App extends Component {
+interface IProps {
+  content: string,
+  variant: string,
+  tabInfo: TopicPos
+}
+const mapStateToProps = (state: State): IProps => {
+  const { snackBar: { content, variant }, topics } = state
+  return {
+    content,
+    variant,
+    tabInfo: {
+      page: topics.page,
+      pageSize: topics.pageSize,
+      tab: topics.tab as AllTabKey,
+      scrollY: topics.scrollY
+    }
+  }
+}
+
+type IPropsFn = {
+  hideSnackBar: () => void
+}
+const mapDispatchToProps = (dispatch: Dispatch<IAppAction>): IPropsFn => {
+  return {
+    hideSnackBar: () => {
+      dispatch(hideSnackBar())
+    }
+  }
+}
+
+class App extends React.Component<IProps & IPropsFn & { children?: React.ReactElement }> {
   handleClose = () => {
     this.props.hideSnackBar()
   }
@@ -40,28 +73,6 @@ class App extends Component {
         {this.props.children}
       </React.Fragment>
     )
-  }
-}
-
-const mapStateToProps = (state) => {
-  const { snackBar: { content, variant }, topics } = state
-  return {
-    content,
-    variant,
-    tabInfo: topics ? {
-      page: topics.page,
-      pageSize: topics.pageSize,
-      tab: topics.tab,
-      scrollY: topics.scrollY
-    } : null
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    hideSnackBar: () => {
-      dispatch(hideSnackBar())
-    }
   }
 }
 

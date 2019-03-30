@@ -1,6 +1,5 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import Button from '@material-ui/core/Button'
 import ArrowForward from '@material-ui/icons/ArrowForward'
 import FormControl from '@material-ui/core/FormControl'
@@ -9,13 +8,12 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import styles from './style'
 import { renderTextField } from '../Form/field'
+import { ILoginForm } from '../../type'
 
 interface ILogin {
-  classes: any,
-  handleSubmit(e: React.FormEvent<HTMLFormElement>): void,
-  submitting: boolean
+  classes: any
 }
-const Login: React.SFC<ILogin> = ({ classes, handleSubmit = _ => {}, submitting = false }: ILogin) => {
+const Login: React.SFC<ILogin & InjectedFormProps<ILoginForm>> = ({ classes, handleSubmit, submitting }) => {
   return <main className={classes.layout}>
     <Typography
       variant="headline"
@@ -46,7 +44,7 @@ const Login: React.SFC<ILogin> = ({ classes, handleSubmit = _ => {}, submitting 
   </main>
 }
 
-function validate(values: { [x: string]: any; }) {
+function validate(values: ILoginForm) {
   return ['accesstoken'].reduce((errors, field) => {
     if (!values[field]) {
       errors[field] = `${field} 不能为空`
@@ -55,13 +53,10 @@ function validate(values: { [x: string]: any; }) {
   }, {} as any)
 }
 
-Login.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-const LoginForm = reduxForm({
+const Form = withStyles(styles as any)(Login as any)
+const LoginForm = reduxForm<ILoginForm>({
   form: 'loginForm',
   validate
-})(Login as any)
+})(Form as any)
 
-export default withStyles(styles as any)(LoginForm as any)
+export default LoginForm

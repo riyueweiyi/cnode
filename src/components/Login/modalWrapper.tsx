@@ -39,7 +39,6 @@ const mapStateToProps = (state: any): IStateToProps => {
   }
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
 class ModalWrapper extends React.Component<IModal & IStateToProps & IActionToProp, {}> {
   static defaultProps = {
     closeBtn: false
@@ -68,4 +67,4 @@ class ModalWrapper extends React.Component<IModal & IStateToProps & IActionToPro
   }
 }
 
-export default withStyles(styles as any)(ModalWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ModalWrapper))

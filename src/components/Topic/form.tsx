@@ -1,22 +1,19 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import IconButton from '@material-ui/core/IconButton'
 import Grid from '@material-ui/core/Grid'
 import withStyles from '@material-ui/core/styles/withStyles'
 import SendIcon from '@material-ui/icons/Send'
 import { renderTextFieldWithoutError } from '../Form/field'
 import styles from './styles'
-
-interface IReplyForm {
-  classes: any,
-  fixed: boolean,
-  right: boolean,
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+import { IReplyForm } from '../../type'
+interface IProps {
+  fixed?: boolean,
+  right?: React.ReactNode
 }
 
-const ReplyForm: React.SFC<IReplyForm> = ({ classes, fixed, right, handleSubmit }) => {
+const ReplyForm: React.SFC<IProps & { classes: any } & InjectedFormProps<IReplyForm>> = ({ classes, fixed, right, handleSubmit }) => {
   const formClass = classNames([fixed ? classes.formFixed : classes.form])
   return <form className={formClass} onSubmit={handleSubmit}>
     <Grid container justify="space-between" spacing={8} alignItems="flex-start">
@@ -40,16 +37,8 @@ const ReplyForm: React.SFC<IReplyForm> = ({ classes, fixed, right, handleSubmit 
   </form>
 }
 
-ReplyForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-interface ReplyFormValidate {
-  reply: string,
-  [k: string]: any
-}
-function validate(values: ReplyFormValidate) {
-  const map: ReplyFormValidate = {
+function validate(values: IReplyForm) {
+  const map: IReplyForm = {
     reply: '回复内容'
   }
   return ['reply'].reduce((errors, field) => {
@@ -59,10 +48,10 @@ function validate(values: ReplyFormValidate) {
     return errors
   }, {} as any)
 }
-
-const ReplyFormWrapper = reduxForm({
+const Form = withStyles(styles as any)(ReplyForm as any)
+const ReplyFormWrapper = reduxForm<IReplyForm, IProps>({
   form: 'replyForm',
   validate
-})(ReplyForm as any)
+})(Form as any)
 
-export default withStyles(styles as any)(ReplyFormWrapper as any)
+export default ReplyFormWrapper
