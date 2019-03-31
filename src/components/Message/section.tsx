@@ -4,12 +4,11 @@ import Button from '@material-ui/core/Button'
 import DoneAll from '@material-ui/icons/DoneAll'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Divider from '@material-ui/core/Divider'
-import { IMessage } from '../../type'
+import { IMessage, IStyle } from '../../type'
 import styles from './styles'
 import Item from './item'
 
-interface ISetion {
-  classes: any,
+interface ISetion extends IStyle {
   onClick: (e: IMessage) => void,
   markAll: (e: React.MouseEvent) => void,
   hasnotReadMessages: boolean,

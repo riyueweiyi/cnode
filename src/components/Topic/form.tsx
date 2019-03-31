@@ -7,13 +7,13 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import SendIcon from '@material-ui/icons/Send'
 import { renderTextFieldWithoutError } from '../Form/field'
 import styles from './styles'
-import { IReplyForm } from '../../type'
+import { IReplyForm, IStyle } from '../../type'
 interface IProps {
   fixed?: boolean,
   right?: React.ReactNode
 }
 
-const ReplyForm: React.SFC<IProps & { classes: any } & InjectedFormProps<IReplyForm>> = ({ classes, fixed, right, handleSubmit }) => {
+const ReplyForm: React.SFC<IProps & IStyle & InjectedFormProps<IReplyForm>> = ({ classes, fixed, right, handleSubmit }) => {
   const formClass = classNames([fixed ? classes.formFixed : classes.form])
   return <form className={formClass} onSubmit={handleSubmit}>
     <Grid container justify="space-between" spacing={8} alignItems="flex-start">

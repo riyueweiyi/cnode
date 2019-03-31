@@ -7,6 +7,7 @@ import { login, hideLoginModal } from '../../actions'
 import { LoginForm, ModalWrapper } from '../../components/Login'
 import { State } from '../../reducers'
 import { ILoginForm } from '../../type'
+import { RouteComponentProps } from 'react-router'
 
 
 interface IPropsFn {
@@ -37,11 +38,9 @@ const mapStateToProps = (state: State): IProps => {
   }
 }
 
-class Login extends React.Component<IProps & IPropsFn & {
+class Login extends React.Component<IProps & IPropsFn & RouteComponentProps & {
   modal: boolean,
-  closeBtn: boolean,
-  history: any,
-  location: any
+  closeBtn: boolean
 }> {
   static defaultProps = {
     modal: false, // 是否作为 modal 打开

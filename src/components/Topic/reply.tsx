@@ -8,17 +8,16 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import IconButton from '@material-ui/core/IconButton'
 import ThumbUpIcon from '@material-ui/icons/ThumbUp'
 import styles from './styles'
-import { IReply } from '../../type'
+import { IReply, IStyle } from '../../type'
 
 interface IReplyItem {
   item: IReply,
-  classes: any,
   replyItemClickHandle: (e: IReply) => void,
   upClickHandle: (e: IReply) => void,
   avatarClickHandle: (e: string) => void
 }
 
-const ReplyItem: React.SFC<IReplyItem> = ({ item, classes, replyItemClickHandle, upClickHandle, avatarClickHandle }) => {
+const ReplyItem: React.SFC<IReplyItem & IStyle> = ({ item, classes, replyItemClickHandle, upClickHandle, avatarClickHandle }) => {
   return <ListItem
     className={classes.listItem}
     button

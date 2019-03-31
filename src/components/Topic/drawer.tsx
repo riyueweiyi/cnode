@@ -4,10 +4,9 @@ import Drawer from '@material-ui/core/Drawer'
 import Typography from '@material-ui/core/Typography'
 import ReplyForm from './form'
 import styles from './styles'
-import { IAuthor, IReplyForm } from '../../type'
+import { IAuthor, IReplyForm, IStyle } from '../../type'
 
 interface IDrawer {
-  classes: any,
   reply: {
     author: IAuthor
   },
@@ -16,7 +15,7 @@ interface IDrawer {
   onClose: (e: React.MouseEvent) => void
 }
 
-const DrawerModal: React.SFC<IDrawer> = ({ reply, onSubmit, classes, show, onClose }) => {
+const DrawerModal: React.SFC<IDrawer & IStyle> = ({ reply, onSubmit, classes, show, onClose }) => {
   return <Drawer
     anchor="bottom"
     open={show}

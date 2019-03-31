@@ -40,7 +40,7 @@ export const reducer: Reducer = (state: ITopicsType = initState, { type, payload
         scrollY: 0,
         list: [],
         pageSize: 15,
-        errMsg: '',
+        errorMsg: '',
         status: 'beforeload',
         tab: payload.tab
       }

@@ -7,13 +7,9 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { renderSelectField } from '../Form/field'
 import validate from './validate'
 import styles from './style'
-import { PublicTopic } from '../../type'
+import { PublicTopic, IStyle } from '../../type'
 
-interface ITabForm {
-  classes: any
-}
-
-const TabForm: React.SFC<ITabForm & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit }) => {
+const TabForm: React.SFC<IStyle & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit }) => {
   return <form onSubmit={handleSubmit}>
       <Field
         name="tab"

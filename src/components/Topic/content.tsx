@@ -6,14 +6,13 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import styles from './styles'
 import Pixel from '../../utils'
-import { ITopicDetail } from '../../type'
+import { ITopic, IStyle } from '../../type'
 const timeDifference = Pixel.utils.timeDifference
 
 interface IContent {
-  classes: any,
-  detail: ITopicDetail
+  detail: ITopic
 }
-const Content: React.SFC<IContent> = ({ detail, classes }) => {
+const Content: React.SFC<IContent & IStyle> = ({ detail, classes }) => {
   return <React.Fragment>
     <CardContent className={classes.header}>
       <Typography variant="headline" gutterBottom>

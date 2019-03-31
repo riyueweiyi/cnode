@@ -6,18 +6,17 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import styles from './styles'
-import { IAuthor } from '../../type'
+import { IAuthor, IStyle } from '../../type'
 
 interface IUser extends IAuthor {
   score: number
 }
 interface IAvatarWrapper {
-  classes: any,
   goBack: (e: React.MouseEvent) => void,
   user: IUser
 }
 
-const AvatarWrapper: React.SFC<IAvatarWrapper> = function ({ user, classes, goBack }) {
+const AvatarWrapper: React.SFC<IAvatarWrapper & IStyle> = function ({ user, classes, goBack }) {
   return <div className={classes.bg}>
     <IconButton color="inherit" className={classes.backBtn} onClick={goBack} aria-label="Close">
       <ArrowBack />

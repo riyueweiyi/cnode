@@ -4,12 +4,11 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import { styles } from './styles'
-import { TabKey } from '../../type'
+import { AllTabKey, IStyle } from '../../type'
 
-interface IFullWidth {
-  tab: TabKey & '',
-  handleChange(): void,
-  classes: any,
+interface IFullWidth extends IStyle {
+  tab: AllTabKey,
+  handleChange(e: React.ChangeEvent<{}>, value: any): void,
 }
 
 const FullWidthTabs: React.SFC<IFullWidth> = ({ tab, handleChange, children, classes }) => {

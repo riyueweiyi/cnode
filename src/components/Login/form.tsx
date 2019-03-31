@@ -8,12 +8,9 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import styles from './style'
 import { renderTextField } from '../Form/field'
-import { ILoginForm } from '../../type'
+import { ILoginForm, IStyle } from '../../type'
 
-interface ILogin {
-  classes: any
-}
-const Login: React.SFC<ILogin & InjectedFormProps<ILoginForm>> = ({ classes, handleSubmit, submitting }) => {
+const Login: React.SFC<IStyle & InjectedFormProps<ILoginForm>> = ({ classes, handleSubmit, submitting }) => {
   return <main className={classes.layout}>
     <Typography
       variant="headline"

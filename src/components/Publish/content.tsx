@@ -7,12 +7,12 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import { renderTextField } from '../Form/field'
 import styles from './style'
 import validate from './validate'
-import { PublicTopic } from '../../type'
+import { PublicTopic, IStyle } from '../../type'
 
 interface IContentForm {
   previousPage: () => void
 }
-const ContentForm: React.SFC<IContentForm & { classes: any } & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit, previousPage }) => {
+const ContentForm: React.SFC<IContentForm & IStyle & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit, previousPage }) => {
   return <form onSubmit={handleSubmit}>
     <Field
       name="content"

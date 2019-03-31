@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import List from '@material-ui/core/List'
 import { connect } from 'react-redux'
@@ -14,10 +13,45 @@ import ErrorPage from '../../components/Error'
 import { Section, Empty, Loading } from '../../components/Message'
 import Pixel from '../../utils'
 import styles from './styles'
+import { Dispatch } from 'redux';
+import { IMessage, IStyle } from '../../type'
+import { State } from '../../reducers'
+import { RouteComponentProps } from 'react-router-dom'
 
-class Topic extends Component {
+interface IOwnProps {
+  error: boolean,
+  errMsg: string,
+  messages: IMessage[],
+  loading: boolean,
+  accesstoken: string,
+  hasnotReadMessages: boolean
+}
+const mapStateToProps = (state: State): IOwnProps => {
+  const { message: { status, errMsg, hasnotReadMessages, hasReadMessages }, userInfo: { accesstoken = '' } } = state
+  return {
+    error: status === 'error',
+    errMsg,
+    messages: hasnotReadMessages.concat(hasReadMessages),
+    loading: ['loading', 'beforeload'].includes(status),
+    accesstoken,
+    hasnotReadMessages: !!hasnotReadMessages.length
+  }
+}
+
+interface IProps {
+  getMessage: (showLoading?: boolean) => void,
+  showSnackBar: (content: string, variant: string) => void
+}
+const mapDispatchToProps = (dispatch: Dispatch<any>): IProps => ({
+  getMessage: compose(dispatch, getMessage),
+  showSnackBar: compose(dispatch, showSnackBar)
+})
+
+
+
+class Topic extends React.Component<IProps & IOwnProps & RouteComponentProps & IStyle> {
   // 标记单个消息为已读
-  listItemClickHandle = ({ id, topic, has_read }) => {
+  listItemClickHandle = ({ id, topic, has_read }: IMessage) => {
     const { history, accesstoken } = this.props
     if (!has_read) {
       Pixel.post(`/message/mark_one/${id}`, { accesstoken }).then(_ => history.push(`/topic/${topic.id}`)).catch(_ => showSnackBar(_.error_msg, 'error'))
@@ -80,26 +114,5 @@ class Topic extends Component {
     </div>
   }
 }
-
-Topic.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = (state) => {
-  const { message: { status, errMsg, hasnotReadMessages, hasReadMessages }, userInfo: { accesstoken } } = state
-  return {
-    error: status === 'error',
-    errMsg,
-    messages: hasnotReadMessages.concat(hasReadMessages),
-    loading: ['loading', 'beforeload'].includes(status),
-    accesstoken,
-    hasnotReadMessages: hasnotReadMessages.length
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  getMessage: compose(dispatch, getMessage),
-  showSnackBar: compose(dispatch, showSnackBar)
-})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Topic))

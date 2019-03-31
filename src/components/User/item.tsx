@@ -8,16 +8,15 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import styles from './styles'
 import Pixel from '../../utils'
-import { IUserTopic } from '../../type'
+import { IUserTopic, IStyle } from '../../type'
 const timeDifference = Pixel.utils.timeDifference
 
 interface IItem {
   onClick: (e: React.MouseEvent) => void,
-  classes: any,
   topic: IUserTopic
 }
 
-const Item: React.SFC<IItem> = function ({ topic, onClick, classes }) {
+const Item: React.SFC<IItem & IStyle> = function ({ topic, onClick, classes }) {
   return <React.Fragment>
     <ListItem
       button

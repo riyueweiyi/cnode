@@ -7,10 +7,9 @@ import TabForm from './tab'
 import TitleForm from './title'
 import ContentForm from './content'
 import styles from './style'
-import { PublicTopic } from '../../type'
+import { PublicTopic, IStyle } from '../../type'
 
 interface IPublishForm {
-  classes: any,
   page: number,
   nextPage: () => void,
   previousPage: () => void,
@@ -18,7 +17,7 @@ interface IPublishForm {
   onSubmit: (e: PublicTopic) => void
 }
 
-const PublishForm: React.SFC<IPublishForm> = ({ classes, page, nextPage, previousPage, onSubmit, goBack }) => {
+const PublishForm: React.SFC<IPublishForm & IStyle> = ({ classes, page, nextPage, previousPage, onSubmit, goBack }) => {
   return <React.Fragment>
     <IconButton color="primary" className={classes.backBtn} onClick={goBack} aria-label="Close">
       <ArrowBack />

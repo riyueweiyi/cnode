@@ -7,7 +7,8 @@ import {
   ILoginInfo,
   LoadTopicsParams,
   PublicTopic,
-  ILoginForm
+  ILoginForm,
+  ITopic
 } from '../type'
 import { State } from '../reducers'
 export enum ActionType {
@@ -45,7 +46,7 @@ export function requestTopics(): IAppAction {
 }
 
 // 成功响应主题
-export function receiveTopics(topics: any, page: number): IAppAction {
+export function receiveTopics(topics: ITopic[], page: number): IAppAction {
   return {
     type: ActionType.RECEIVE_TOPICS,
     payload: {
@@ -56,10 +57,10 @@ export function receiveTopics(topics: any, page: number): IAppAction {
 }
 
 // 响应主题失败
-export function failTopics(errMsg: string): IAppAction {
+export function failTopics(payload: any): IAppAction {
   return {
     type: ActionType.FAIL_TOPICS,
-    payload: errMsg
+    payload
   }
 }
 
@@ -241,7 +242,10 @@ export function getTopicList(params: LoadTopicsParams) {
     }
     catch (_) {
       dispatch(showSnackBar(_.error_msg, 'error'));
-      dispatch(failTopics(_.error_msg));
+      dispatch(failTopics({
+        errMsg: _.error_msg,
+        page: params.page
+      }))
     }
   }
 }
@@ -259,7 +263,7 @@ export function initPageData() {
 }
 
 // 切换主题tab
-export function chagnTabHandle(tabValue: AllTabKey) {
+export function changeTabHandle(tabValue: AllTabKey) {
   return (dispatch: Dispatch<any>, getState: () => State) => {
     dispatch(changeTab(tabValue))
     const { topics: { tab, page, pageSize: limit } } = getState()
@@ -295,7 +299,7 @@ export function publish(body: PublicTopic) {
 }
 
 // 获取消息
-export function getMessage(showLoading: boolean) {
+export function getMessage(showLoading?: boolean) {
   return async (dispatch: Dispatch<IAppAction>, getState: () => State) => {
     const { userInfo: { accesstoken } } = getState()
     showLoading && dispatch(requestMessage())
@@ -312,7 +316,7 @@ export function getMessage(showLoading: boolean) {
 }
 
 // 获取用户信息
-export function getUserinfo(loginname: ILoginName) {
+export function getUserinfo(loginname: ILoginName | string) {
   return async (dispatch: Dispatch<IAppAction>) => {
     dispatch(requestUserinfo())
     try {

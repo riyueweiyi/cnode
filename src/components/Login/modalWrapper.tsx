@@ -10,14 +10,14 @@ import compose from 'lodash/fp/flowRight'
 import styles from './style'
 import { hideLoginModal } from '../../actions'
 import { IModalType } from '../../reducers/modal'
+import { IStyle } from '../../type'
 
 const Transition: React.SFC<{}> = function (props) {
   return <Slide direction="up" {...props} />
 }
 
-interface IModal {
-  closeBtn: boolean,
-  classes: any
+interface IModal extends IStyle {
+  closeBtn: boolean
 }
 
 interface IStateToProps {

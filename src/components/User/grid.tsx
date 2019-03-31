@@ -6,12 +6,9 @@ import Button from '@material-ui/core/Button'
 import FolderIcon from '@material-ui/icons/Folder'
 import EmailIcon from '@material-ui/icons/Email'
 import styles from './styles'
+import { IStyle } from '../../type';
 
-interface IGridWrapper {
-  classes: any
-}
-
-const GridWrapper: React.SFC<IGridWrapper> = function ({ classes }) {
+const GridWrapper: React.SFC<IStyle> = function ({ classes }) {
   return  <Grid container spacing={24} className={classes.marginNomarl}>
   <Grid
     item

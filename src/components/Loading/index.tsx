@@ -2,6 +2,7 @@ import * as React from 'react'
 import { withStyles, Theme } from '@material-ui/core/styles'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Typography from '@material-ui/core/Typography'
+import { IStyle } from '../../type'
 
 const styles = (_: Theme) => ({
   wrapper: {
@@ -13,9 +14,8 @@ const styles = (_: Theme) => ({
   }
 })
 
-interface ILoading {
-  text: string,
-  classes: any
+interface ILoading extends IStyle {
+  text: string
 }
 
 const Loading: React.SFC<ILoading> = ({ text = 'Loading...', classes }: ILoading) => {

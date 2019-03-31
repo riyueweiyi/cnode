@@ -8,16 +8,15 @@ import Avatar from '@material-ui/core/Avatar'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import styles from './styles'
-import { IAuthor } from '../../type'
+import { IAuthor, IStyle } from '../../type'
 
 interface ITabbar {
   goBack: (e: React.MouseEvent) => void,
   author: IAuthor,
-  classes: any,
   onClick: (e: string) => void
 }
 
-const Tabbar: React.SFC<ITabbar> = ({ goBack, author, classes, onClick }) => {
+const Tabbar: React.SFC<ITabbar & IStyle> = ({ goBack, author, classes, onClick }) => {
   return <AppBar position="fixed">
     <Toolbar>
       <IconButton color="inherit" onClick={goBack} aria-label="Back">

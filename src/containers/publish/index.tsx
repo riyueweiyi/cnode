@@ -8,6 +8,7 @@ import LoginForm from '../login'
 import { Dispatch } from 'redux'
 import { State } from '../../reducers'
 import { PublicTopic } from '../../type'
+import { RouteComponentProps } from 'react-router'
 
 const initState = {
   page: 1
@@ -38,7 +39,7 @@ const mapStateToProps = (state: State): IProps => {
   }
 }
 
-class Publish extends React.Component<IpropsFn & IProps & { history: any }, IState> {
+class Publish extends React.Component<IpropsFn & IProps & RouteComponentProps, IState> {
   readonly state = initState
   componentDidMount() {
     const { accesstoken, showLoginModal } = this.props

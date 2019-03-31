@@ -8,13 +8,12 @@ import Typography from '@material-ui/core/Typography'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import styles from './styles'
-import { IMessage } from '../../type'
+import { IMessage, IStyle } from '../../type'
 import Pixel from '../../utils'
 
-interface IItem {
+interface IItem extends IStyle {
   item: IMessage,
-  onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void,
-  classes: any
+  onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
 const timeDifference = Pixel.utils.timeDifference

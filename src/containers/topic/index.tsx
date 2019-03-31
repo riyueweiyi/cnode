@@ -30,6 +30,7 @@ import Pixel from '../../utils'
 import { State } from '../../reducers'
 import { Dispatch } from 'redux'
 import { IReply, IReplyForm } from '../../type'
+import { RouteComponentProps } from 'react-router-dom'
 
 interface IProps {
   error: boolean,
@@ -53,7 +54,6 @@ const mapStateToProps = (state: State): IProps => {
   }
 }
 
-
 interface IPropsFn {
   getTopicDetailById: (id: string, showLoading: boolean) => any,
   reset: (a: string) => {},
@@ -71,10 +71,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): IPropsFn => ({
   showLoginModal: compose(dispatch, showLoginModal)
 })
 
-class Topic extends React.Component<IProps & IPropsFn & {
-  history: any,
-  match: any
-}> {
+class Topic extends React.Component<IProps & IPropsFn & RouteComponentProps<{id: string}>> {
   componentDidMount() {
     window.scrollY && window.scrollTo(0, 0)
     this.getTopicDetail()

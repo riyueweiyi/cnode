@@ -18,6 +18,8 @@ export type TabType = {
   [p in TabKey]: string
 }
 export interface ITopic {
+  id: string,
+  author_id: string,
   good: boolean,
   top: boolean,
   author: IAuthor,
@@ -25,11 +27,9 @@ export interface ITopic {
   create_at: string,
   visit_count: number,
   title: string,
-  reply_count: number
-}
-
-export interface ITopicDetail extends ITopic {
-  content: string
+  reply_count: number,
+  content: string,
+  last_reply_at: string,
 }
 
 export type TopicPos = {
@@ -101,4 +101,8 @@ export interface IPublishForm {
 export interface ILoginForm {
   accesstoken: string,
   [k: string]: any
+}
+
+export interface IStyle {
+  classes: any
 }

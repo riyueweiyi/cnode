@@ -7,13 +7,13 @@ import ArrowForward from '@material-ui/icons/ArrowForward'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import validate from './validate'
 import styles from './style'
-import { PublicTopic } from '../../type'
+import { PublicTopic, IStyle } from '../../type'
 
 interface ITitleForm {
   previousPage: () => void
 }
 
-const TitleForm: React.SFC<ITitleForm & { classes: any } & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit, previousPage }) => {
+const TitleForm: React.SFC<ITitleForm & IStyle & InjectedFormProps<PublicTopic>> = ({ classes, handleSubmit, previousPage }) => {
   return <form onSubmit={handleSubmit}>
     <Field
       name="title"

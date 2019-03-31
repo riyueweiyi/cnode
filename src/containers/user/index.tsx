@@ -10,6 +10,7 @@ import { Avatar, Section, Loading } from '../../components/User'
 import ErrorPage from '../../components/Error'
 import { State } from '../../reducers'
 import { ILoginName, IUserTopic } from '../../type'
+import { RouteComponentProps } from 'react-router-dom'
 
 interface IProps {
   error: boolean,
@@ -31,14 +32,14 @@ const mapStateToProps = (state: State): IProps => {
 }
 
 interface IPropsfn {
-  getUserinfo: (i: ILoginName) => void
+  getUserinfo: (i: ILoginName | string) => void
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): IPropsfn => ({
   getUserinfo: compose(dispatch, getUserinfo)
 })
 
-class User extends React.Component<IProps & IPropsfn & { match: any, history: any}> {
+class User extends React.Component<IProps & IPropsfn & RouteComponentProps<ILoginName>> {
   componentDidMount() {
     const { getUserinfo, match, loginname } = this.props
     window.scrollY && window.scrollTo(0, 0)

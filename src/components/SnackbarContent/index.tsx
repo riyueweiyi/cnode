@@ -9,6 +9,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import WarningIcon from '@material-ui/icons/Warning'
 import { withStyles } from '@material-ui/core/styles'
 import styles from './style'
+import { IStyle } from '../../type'
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -18,7 +19,6 @@ const variantIcon = {
 }
 
 interface IMySnackBar {
-  classes: any,
   classNames: any,
   message: string | React.ReactNode,
   onClose: (event: any) => void,
@@ -26,7 +26,7 @@ interface IMySnackBar {
   [k: string]: any
 }
 
-const MySnackbarContent: React.SFC<IMySnackBar> = ({ classes, className, message, onClose, variant, ...other }) => {
+const MySnackbarContent: React.SFC<IMySnackBar & IStyle> = ({ classes, className, message, onClose, variant, ...other }) => {
   const Icon = variantIcon[variant]
 
   return (

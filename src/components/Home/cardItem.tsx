@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Pixel from '../../utils'
 import { CardItemStyle } from './styles'
-import { TabType, ITopic } from '../../type'
+import { TabType, ITopic, IStyle } from '../../type'
 
 const tab: TabType = {
   'good': '精华',
@@ -18,8 +18,7 @@ const tab: TabType = {
 }
 const timeDifference: Function = Pixel.utils.timeDifference
 
-interface ICardItem {
-  classes: any,
+interface ICardItem extends IStyle {
   onClick(e: ITopic): void,
   item: ITopic
 }

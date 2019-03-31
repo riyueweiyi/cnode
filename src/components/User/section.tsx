@@ -3,10 +3,9 @@ import { withStyles } from '@material-ui/core/styles'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import styles from './styles'
 import Item from './item'
-import { IUserTopic } from '../../type'
+import { IUserTopic, IStyle } from '../../type'
 
 interface ISection {
-  classes: any,
   section: {
     title: string,
     icon: any,
@@ -14,7 +13,7 @@ interface ISection {
   },
   listItemClickHandle: (e: IUserTopic) => void
 }
-const Section: React.SFC<ISection> = function ({ section, listItemClickHandle, classes }) {
+const Section: React.SFC<ISection & IStyle> = function ({ section, listItemClickHandle, classes }) {
   const Icon = section.icon
   return <li
     key={`section-${section.title}`}

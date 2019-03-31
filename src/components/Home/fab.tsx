@@ -3,9 +3,9 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import { fab } from './styles'
+import { IStyle } from '../../type'
 
-interface IFab {
-  classes: any,
+interface IFab extends IStyle {
   onclick(e: React.MouseEvent): void,
   [k: string]: any
 }
