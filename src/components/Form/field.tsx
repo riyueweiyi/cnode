@@ -13,7 +13,7 @@ interface IElement {
   [k: string]: any
 }
 
-const createFormField = (Component: React.ComponentType, showFormHeplerText: boolean) => ({ input, label, meta: { touched, error }, children, ...custom }: IElement) => {
+const createFormField = (Component: React.ComponentType, showFormHeplerText: boolean) => ({ input, label, meta: { touched, error }, children, ...custom }: IElement): React.ReactNode => {
   const hasError = Boolean(touched && error)
   return <FormControl error={hasError} fullWidth>
     {label && <InputLabel htmlFor={input.name}>{label}</InputLabel>}

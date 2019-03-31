@@ -42,7 +42,7 @@ const ContentForm: React.SFC<IContentForm & IStyle & InjectedFormProps<PublicTop
   </form>
 }
 
-const Form = withStyles(styles as any)(ContentForm as any)
+const Form = withStyles(styles as any)(ContentForm)
 const ContentFormWrapper = reduxForm<PublicTopic, IContentForm>({
   form: 'publishForm',
   destroyOnUnmount: false,        // <------ preserve form data

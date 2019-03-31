@@ -1,5 +1,4 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import Avatar from '@material-ui/core/Avatar'
@@ -40,11 +39,6 @@ const Item: React.SFC<IItem & IStyle> = function ({ topic, onClick, classes }) {
       <Divider inset />
     </li>
   </React.Fragment>
-}
-
-
-Item.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles as any)(Item)

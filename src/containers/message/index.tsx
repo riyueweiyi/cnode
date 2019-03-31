@@ -47,8 +47,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): IProps => ({
   showSnackBar: compose(dispatch, showSnackBar)
 })
 
-
-
 class Topic extends React.Component<IProps & IOwnProps & RouteComponentProps & IStyle> {
   // 标记单个消息为已读
   listItemClickHandle = ({ id, topic, has_read }: IMessage) => {

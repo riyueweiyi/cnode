@@ -1,5 +1,4 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -35,11 +34,6 @@ const GridWrapper: React.SFC<IStyle> = function ({ classes }) {
     </Button>
   </Grid>
 </Grid>
-}
-
-
-GridWrapper.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles as any)(GridWrapper)

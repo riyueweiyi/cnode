@@ -50,10 +50,10 @@ function validate(values: ILoginForm) {
   }, {} as any)
 }
 
-const Form = withStyles(styles as any)(Login as any)
+const Form = withStyles(styles as any)(Login)
 const LoginForm = reduxForm<ILoginForm>({
   form: 'loginForm',
   validate
-})(Form as any)
+})(Form)
 
 export default LoginForm

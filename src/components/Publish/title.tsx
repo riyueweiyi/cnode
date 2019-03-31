@@ -42,7 +42,7 @@ const TitleForm: React.SFC<ITitleForm & IStyle & InjectedFormProps<PublicTopic>>
   </form>
 }
 
-const Form = withStyles(styles as any)(TitleForm as any)
+const Form = withStyles(styles as any)(TitleForm)
 const TitleFormWrapper = reduxForm<PublicTopic, ITitleForm>({
   form: 'publishForm',
   destroyOnUnmount: false,        // <------ preserve form data

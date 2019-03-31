@@ -1,5 +1,4 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import CardContent from '@material-ui/core/CardContent'
@@ -31,10 +30,6 @@ const Content: React.SFC<IContent & IStyle> = ({ detail, classes }) => {
       <p className={classes.visit}>阅读 {detail.visit_count} 回复 {detail.reply_count}</p>
     </CardActions>
   </React.Fragment>
-}
-
-Content.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles as any)(Content)

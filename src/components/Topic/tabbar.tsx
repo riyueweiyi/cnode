@@ -5,7 +5,6 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar'
 import Avatar from '@material-ui/core/Avatar'
-import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import styles from './styles'
 import { IAuthor, IStyle } from '../../type'
@@ -30,10 +29,6 @@ const Tabbar: React.SFC<ITabbar & IStyle> = ({ goBack, author, classes, onClick 
       </div>
     </Toolbar>
   </AppBar>
-}
-
-Tabbar.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles as any)(Tabbar)

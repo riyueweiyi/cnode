@@ -33,12 +33,12 @@ const TabForm: React.SFC<IStyle & InjectedFormProps<PublicTopic>> = ({ classes, 
     </form>
 }
 
-const Form = withStyles(styles as any)(TabForm as any)
+const Form = withStyles(styles as any)(TabForm)
 const TabFormWrapper = reduxForm<PublicTopic>({
   form: 'publishForm',
   destroyOnUnmount: false,        // <------ preserve form data
   forceUnregisterOnUnmount: true,
   validate
-})(Form as any)
+})(Form)
 
 export default TabFormWrapper

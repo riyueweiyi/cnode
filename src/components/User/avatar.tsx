@@ -1,5 +1,4 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
@@ -33,11 +32,6 @@ const AvatarWrapper: React.SFC<IAvatarWrapper & IStyle> = function ({ user, clas
       <Avatar srcSet={user.avatar_url} className={classes.avatar} />
     </div>
   </div>
-}
-
-
-AvatarWrapper.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles as any)(AvatarWrapper)
