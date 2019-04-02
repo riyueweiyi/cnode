@@ -1,16 +1,15 @@
-import { ActionType, IAppAction } from '../actions'
+import { ActionType } from '../actions'
 import { Reducer } from 'redux'
+import { createReducer } from './utils'
 
 const initState = false
-export type IModalType = Readonly<typeof initState>
+export type IModalType = boolean
 
-export const reducer: Reducer =  (state: IModalType = initState, { type }: IAppAction) => {
-  switch (type) {
-    case ActionType.SHOW_LOGIN_MODAL:
-      return true
-    case ActionType.HIDE_LOGIN_MODAL:
-      return false
-    default:
-      return state
+export const reducer: Reducer =  createReducer<IModalType>(initState, {
+  [ActionType.SHOW_LOGIN_MODAL]() {
+    return true
+  },
+  [ActionType.HIDE_LOGIN_MODAL] () {
+    return false
   }
-}
+})

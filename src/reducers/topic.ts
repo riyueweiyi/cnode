@@ -1,6 +1,6 @@
-import { ActionType, IAppAction } from '../actions'
+import { ActionType } from '../actions'
 import { Reducer } from 'redux'
-
+import { createReducer } from './utils'
 const initState = {
   detail: null,
   status: 'beforeload', // beforeload loading success error
@@ -11,28 +11,33 @@ const initState = {
 
 export type ITopicType = Readonly<typeof initState>
 
-export const reducer: Reducer =  (state: ITopicType = initState, {type, payload}: IAppAction) => {
-  switch(type) {
-    case ActionType.REQUEST_TOPIC_DETAIL:
-      return {
-        ...state,
-        status: 'loading'
-      }
-    case ActionType.RECEIVE_TOPIC_DETAIL:
-      return {
-        ...state,
-        detail: payload.data,
-        status: payload.success ? 'success' : 'error',
-        errMsg: payload.error_msg || ''
-      }
-    case ActionType.SHOW_REPLY_DRAWER:
-    case ActionType.HIDE_REPLY_DRAWER:
-      return {
-        ...state,
-        showReplyDrawer: payload.type === ActionType.SHOW_REPLY_DRAWER,
-        reply: payload.type === ActionType.SHOW_REPLY_DRAWER ? payload.reply : null
-      }
-    default:
-      return state
+export const reducer: Reducer = createReducer<ITopicType>(initState, {
+  [ActionType.REQUEST_TOPIC_DETAIL] (state: ITopicType) {
+    return {
+      ...state,
+      status: 'loading'
+    }
+  },
+  [ActionType.RECEIVE_TOPIC_DETAIL] (state: ITopicType, payload) {
+    return {
+      ...state,
+      detail: payload.data,
+      status: payload.success ? 'success' : 'error',
+      errMsg: payload.error_msg || ''
+    }
+  },
+  [ActionType.SHOW_REPLY_DRAWER]: (state: ITopicType, payload: any) => {
+    return {
+      ...state,
+      showReplyDrawer: true,
+      reply: payload.reply
+    }
+  },
+  [ActionType.HIDE_REPLY_DRAWER]: (state: ITopicType ) => {
+    return {
+      ...state,
+      showReplyDrawer: false,
+      reply: null
+    }
   }
-}
+})

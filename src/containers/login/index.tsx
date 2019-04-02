@@ -66,7 +66,7 @@ class Login extends React.Component<IProps & IPropsFn & RouteComponentProps & {
         hideLoginModal()
       } else {
         const url = this.getParameterByName('redirectUrl', location.search)
-        history.replace(`/${url}`)
+        history.replace(`/${url || ''}`)
       }
     }
   }

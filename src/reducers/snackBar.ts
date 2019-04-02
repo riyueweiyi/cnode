@@ -1,5 +1,6 @@
-import { ActionType, IAppAction } from '../actions'
+import { ActionType } from '../actions'
 import { Reducer } from 'redux'
+import { createReducer } from './utils'
 
 const initialState = {
   content: '',
@@ -8,19 +9,17 @@ const initialState = {
 
 export type ISnackBar = Readonly<typeof initialState>
 
-export const reducer: Reducer =  function (state: ISnackBar = initialState, { type, payload }: IAppAction) {
-  switch(type) {
-    case ActionType.SHOW_SNACK_BAR:
-      return {
-        ...state,
-        ...payload
-      }
-    case ActionType.HIDE_SNACK_BAR:
-      return {
-        ...state,
-        content: ''
-      }
-    default:
-      return state
+export const reducer: Reducer = createReducer<ISnackBar>(initialState, {
+  [ActionType.SHOW_SNACK_BAR] (state: ISnackBar, payload) {
+    return {
+      ...state,
+      ...payload
+    }
+  },
+  [ActionType.HIDE_SNACK_BAR] (state: ISnackBar) {
+    return {
+      ...state,
+      content: ''
+    }
   }
-}
+})
