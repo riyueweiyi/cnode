@@ -38,195 +38,105 @@ export interface IAppAction extends Action<ActionType> {
   payload?: any
 }
 
-// 请求主题
-export function requestTopics(): IAppAction {
-  return {
-    type: ActionType.REQUEST_TOPICS
+/**
+ * 
+ * @param type action type
+ * @param argNames params 
+ */
+function makeActionCreator(type: ActionType, ...argNames: string[]): (...args: any[]) => IAppAction {
+  return function(...args: any[]): IAppAction {
+    const action: IAppAction = { 
+      type
+    }
+    if (argNames.length === 0 && args.length === 1) {
+      action.payload = args[0]
+      return action
+    }
+    argNames.reduce((action: IAppAction, arg: string, index: number) => {
+      action.payload = action.payload || {}
+      action.payload[arg] = args[index]
+      return action
+    }, action)
+    return action
   }
 }
+
+// 请求主题
+export const requestTopics = makeActionCreator(ActionType.REQUEST_TOPICS)
 
 // 成功响应主题
-export function receiveTopics(topics: ITopic[], page: number): IAppAction {
-  return {
-    type: ActionType.RECEIVE_TOPICS,
-    payload: {
-      topics,
-      page
-    }
-  }
-}
+export const receiveTopics = makeActionCreator(ActionType.RECEIVE_TOPICS, 'topics', 'page')
 
 // 响应主题失败
-export function failTopics(payload: any): IAppAction {
-  return {
-    type: ActionType.FAIL_TOPICS,
-    payload
-  }
-}
+export const failTopics = makeActionCreator(ActionType.FAIL_TOPICS)
 
 // 记录用户浏览主题位置
-export function recordTopicPos(payload: TopicPos): IAppAction {
-  return {
-    type: ActionType.RECORD_TOPIC_POS,
-    payload
-  }
-}
+export const recordTopicPos = makeActionCreator(ActionType.RECORD_TOPIC_POS)
 
 // 获取下一页主题
-export function requestNextPageTopic(): IAppAction {
-  return {
-    type: ActionType.REQUEST_NEXT_PAGE_TOPIC_LIST
-  }
-}
+export const requestNextPageTopic = makeActionCreator(ActionType.REQUEST_NEXT_PAGE_TOPIC_LIST)
 
 // 切换浏览主题tab
-export function changeTab(tab: AllTabKey): IAppAction {
-  return {
-    type: ActionType.CHANGE_TAB,
-    payload: {
-      tab
-    }
-  }
-}
+export const changeTab = makeActionCreator(ActionType.CHANGE_TAB, 'tab')
 
 // 显示登录弹窗
-export function showLoginModal(): IAppAction {
-  return {
-    type: ActionType.SHOW_LOGIN_MODAL
-  }
-}
+export const showLoginModal = makeActionCreator(ActionType.SHOW_LOGIN_MODAL)
 
 // 隐藏登录弹窗
-export function hideLoginModal(): IAppAction {
-  return {
-    type: ActionType.HIDE_LOGIN_MODAL
-  }
-}
+export const hideLoginModal = makeActionCreator(ActionType.HIDE_LOGIN_MODAL)
 
 // 登陆成功
-export function receiveAccesstoken(payload: ILoginInfo): IAppAction {
-  return {
-    type: ActionType.RECEIVE_ACCESSSTOKEN,
-    payload
-  }
-}
+export const receiveAccesstoken = makeActionCreator(ActionType.RECEIVE_ACCESSSTOKEN)
 
 // 登陆失败
-export function errorAccesstoken(): IAppAction {
-  return {
-    type: ActionType.ERROR_ACCESSTOKEN
-  }
-}
+export const errorAccesstoken = makeActionCreator(ActionType.ERROR_ACCESSTOKEN)
 
 // 显示信息
-export function showSnackBar(content: string, variant: string): IAppAction {
-  return {
-    type: ActionType.SHOW_SNACK_BAR,
-    payload: {
-      content,
-      variant
-    }
-  }
-}
+export const showSnackBar = makeActionCreator(ActionType.SHOW_SNACK_BAR, 'content', 'variant')
 
 // 隐藏信息
-export function hideSnackBar(): IAppAction {
-  return {
-    type: ActionType.HIDE_SNACK_BAR
-  }
-}
+export const hideSnackBar = makeActionCreator(ActionType.HIDE_SNACK_BAR)
 
 // 请求消息
-export function requestMessage(): IAppAction {
-  return {
-    type: ActionType.REQUEST_MESSAGE
-  }
-}
+export const requestMessage = makeActionCreator(ActionType.REQUEST_MESSAGE)
 
 // 请求主题详情
-export function requestTopicDetail(): IAppAction {
-  return {
-    type: ActionType.REQUEST_TOPIC_DETAIL
-  }
-}
+export const requestTopicDetail = makeActionCreator(ActionType.REQUEST_TOPIC_DETAIL)
 
 // 获取主题详情
-export function receiveTopicDetail(res: any): IAppAction {
-  return {
-    type: ActionType.RECEIVE_TOPIC_DETAIL,
-    payload: {
-      ...res
-    }
-  }
-}
-
+export const receiveTopicDetail = makeActionCreator(ActionType.RECEIVE_TOPIC_DETAIL)
 // 响应消息
-export function receiveMessage(payload: any): IAppAction {
-  return {
-    type: ActionType.RECEIVE_MESSAGE,
-    payload
-  }
-}
+export const receiveMessage = makeActionCreator(ActionType.RECEIVE_MESSAGE)
 
 // 响应消息失败
-export function failMessage(errMsg: string): IAppAction {
-  return {
-    type: ActionType.FAIL_MESSAGE,
-    payload: {
-      errMsg
-    }
-  }
-}
-
+export const failMessage = makeActionCreator(ActionType.FAIL_MESSAGE, 'errMsg')
 // 请求用户信息
-export function requestUserinfo(): IAppAction {
-  return {
-    type: ActionType.REQUEST_USERINFO
-  }
-}
+export const requestUserinfo = makeActionCreator(ActionType.REQUEST_USERINFO)
 
 // 响应用户信息
-export function receiveUserinfo(res: any): IAppAction {
-  return {
-    type: ActionType.RECEIVE_USERINFO,
-    payload: {
-      ...res
-    }
-  }
-}
+export const receiveUserinfo = makeActionCreator(ActionType.RECEIVE_USERINFO)
 
 // 显示评论drawer
-export function showReplyDrawer(reply: any): IAppAction {
-  return {
-    type: ActionType.SHOW_REPLY_DRAWER,
-    payload: {
-      reply
-    }
-  }
-}
+export const showReplyDrawer = makeActionCreator(ActionType.SHOW_REPLY_DRAWER, 'reply')
 
 // 隐藏评论drawer
-export function hideReplyDrawer(): IAppAction {
-  return {
-    type: ActionType.HIDE_REPLY_DRAWER
-  }
-}
+export const hideReplyDrawer = makeActionCreator(ActionType.HIDE_REPLY_DRAWER)
 
 // 登陆
 export function login(body: ILoginForm) {
   return async (dispatch: Dispatch<IAppAction>) => {
     try {
-      const res = await Pixel.post('/accesstoken', body);
+      const res = await Pixel.post('/accesstoken', body)
       dispatch(receiveAccesstoken({
         accesstoken: body.accesstoken, 
         loginname: res.loginname
-      }));
-      dispatch(showSnackBar('登录成功', 'success'));
-      return res;
+      }))
+      dispatch(showSnackBar('登录成功', 'success'))
+      return res
     }
     catch (err) {
-      dispatch(errorAccesstoken());
-      dispatch(showSnackBar(err.error_msg, 'error'));
+      dispatch(errorAccesstoken())
+      dispatch(showSnackBar(err.error_msg, 'error'))
     }
   }
 }
@@ -236,12 +146,12 @@ export function getTopicList(params: LoadTopicsParams) {
   return async (dispatch: Dispatch<IAppAction>) => {
     dispatch(requestTopics())
     try {
-      const res = await Pixel.get('/topics', params);
-      dispatch(receiveTopics(res.data, params.page));
-      return res;
+      const res = await Pixel.get('/topics', params)
+      dispatch(receiveTopics(res.data, params.page))
+      return res
     }
     catch (_) {
-      dispatch(showSnackBar(_.error_msg, 'error'));
+      dispatch(showSnackBar(_.error_msg, 'error'))
       dispatch(failTopics({
         errMsg: _.error_msg,
         page: params.page
@@ -288,12 +198,12 @@ export function publish(body: PublicTopic) {
       const res = await Pixel.post('/topics', {
         ...body,
         accesstoken
-      });
-      dispatch(showSnackBar('发布成功', 'success'));
-      return res;
+      })
+      dispatch(showSnackBar('发布成功', 'success'))
+      return res
     }
     catch (err) {
-      dispatch(showSnackBar(err.error_msg, 'error'));
+      dispatch(showSnackBar(err.error_msg, 'error'))
     }
   }
 }
@@ -304,13 +214,13 @@ export function getMessage(showLoading?: boolean) {
     const { userInfo: { accesstoken } } = getState()
     showLoading && dispatch(requestMessage())
     try {
-      const res = await Pixel.get('/messages', { accesstoken });
-      dispatch(receiveMessage({ ...res.data }));
-      return res;
+      const res = await Pixel.get('/messages', { accesstoken })
+      dispatch(receiveMessage({ ...res.data }))
+      return res
     }
     catch (res_1) {
-      dispatch(failMessage(res_1.error_msg));
-      dispatch(showSnackBar(res_1.error_msg, 'error'));
+      dispatch(failMessage(res_1.error_msg))
+      dispatch(showSnackBar(res_1.error_msg, 'error'))
     }
   }
 }
@@ -320,13 +230,13 @@ export function getUserinfo(loginname: ILoginName | string) {
   return async (dispatch: Dispatch<IAppAction>) => {
     dispatch(requestUserinfo())
     try {
-      const res = await Pixel.get(`/user/${loginname}`, null);
-      dispatch(receiveUserinfo(res));
-      return res;
+      const res = await Pixel.get(`/user/${loginname}`, null)
+      dispatch(receiveUserinfo(res))
+      return res
     }
     catch (err) {
-      dispatch(receiveUserinfo(err));
-      dispatch(showSnackBar(err.error_msg, 'error'));
+      dispatch(receiveUserinfo(err))
+      dispatch(showSnackBar(err.error_msg, 'error'))
     }
   }
 }
@@ -337,13 +247,13 @@ export function getTopicDetail(id: string, showLoading: boolean) {
     const { userInfo: { accesstoken } } = getState()
     showLoading && dispatch(requestTopicDetail())
     try {
-      const res = await Pixel.get(`/topic/${id}`, { accesstoken });
-      dispatch(receiveTopicDetail(res));
-      return res;
+      const res = await Pixel.get(`/topic/${id}`, { accesstoken })
+      dispatch(receiveTopicDetail(res))
+      return res
     }
     catch (res_2) {
-      dispatch(receiveTopicDetail(res_2));
-      dispatch(showSnackBar(res_2.error_msg, 'error'));
+      dispatch(receiveTopicDetail(res_2))
+      dispatch(showSnackBar(res_2.error_msg, 'error'))
     }
   }
 }

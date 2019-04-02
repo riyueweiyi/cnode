@@ -8,7 +8,7 @@ import { AllTabKey, IStyle } from '../../type'
 
 interface IFullWidth extends IStyle {
   tab: AllTabKey,
-  handleChange(e: React.ChangeEvent<{}>, value: any): void,
+  handleChange(e: React.ChangeEvent<{}>, value: AllTabKey): void,
 }
 
 const FullWidthTabs: React.SFC<IFullWidth> = ({ tab, handleChange, children, classes }) => {

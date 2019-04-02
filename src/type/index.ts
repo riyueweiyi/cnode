@@ -12,7 +12,7 @@ export interface ILoginInfo extends ILoginName {
 }
 
 export type TabKey = 'good' | 'share' | 'ask' | 'job'
-export type AllTabKey = TabKey & ''
+export type AllTabKey = TabKey | ''
 
 export type TabType = {
   [p in TabKey]: string
