@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-export const styles = (theme: Theme) => ({
+import { Theme, createStyles } from '@material-ui/core/styles'
+export const styles = (theme: Theme) => createStyles({
   tabs: {
     position: 'fixed',
     background: '#fff',
@@ -14,7 +14,7 @@ export const styles = (theme: Theme) => ({
   }
 })
 
-export const fab = (theme: Theme) => ({
+export const fab = (theme: Theme) => createStyles({
   fab: {
     position: 'fixed',
     bottom: theme.spacing.unit * 2,

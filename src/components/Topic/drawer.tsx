@@ -28,4 +28,4 @@ const DrawerModal: React.SFC<IDrawer & IStyle> = ({ reply, onSubmit, classes, sh
   </Drawer>
 }
 
-export default withStyles(styles as any)(DrawerModal)
+export default withStyles(styles)(DrawerModal)

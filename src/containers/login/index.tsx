@@ -81,6 +81,4 @@ class Login extends React.Component<IProps & IPropsFn & RouteComponentProps & {
   }
 }
 
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -15,4 +15,4 @@ const FabBtn: React.SFC<IFab> = ({ classes, onClick, ...props }) => (
   </Button>
 )
 
-export default withStyles(fab as any, { withTheme: true })(FabBtn)
+export default withStyles(fab, { withTheme: true })(FabBtn)

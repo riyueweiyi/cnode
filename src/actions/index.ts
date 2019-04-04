@@ -2,13 +2,10 @@ import { Action, Dispatch } from 'redux'
 import Pixel from '../utils'
 import {
   ILoginName,
-  TopicPos,
   AllTabKey,
-  ILoginInfo,
   LoadTopicsParams,
   PublicTopic,
-  ILoginForm,
-  ITopic
+  ILoginForm
 } from '../type'
 import { State } from '../reducers'
 export enum ActionType {

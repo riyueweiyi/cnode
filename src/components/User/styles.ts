@@ -1,6 +1,6 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme, createStyles } from '@material-ui/core/styles'
 const bgImage = process.env.PUBLIC_URL + '/images/bg.jpg'
-const styles = (theme: Theme) => ({
+const styles = (theme: Theme) => createStyles({
   bg: {
     position: 'relative',
     background: `url(${bgImage}) no-repeat center 0`,

@@ -35,4 +35,4 @@ const FullWidthTabs: React.SFC<IFullWidth> = ({ tab, handleChange, children, cla
   )
 }
 
-export default withStyles(styles as any, { withTheme: true })(FullWidthTabs)
+export default withStyles(styles, { withTheme: true })(FullWidthTabs)

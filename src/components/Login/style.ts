@@ -1,6 +1,6 @@
 import green from '@material-ui/core/colors/green'
-import { Theme } from '@material-ui/core/styles'
-const styles = (theme: Theme) => ({
+import { Theme, createStyles } from '@material-ui/core/styles'
+const styles = (theme: Theme) => createStyles({
   layout: {
     display: 'flex',
     flexDirection: 'column',

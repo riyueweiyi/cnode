@@ -31,4 +31,4 @@ const Section: React.SFC<ISection & IStyle> = function ({ section, listItemClick
   </li>
 }
 
-export default withStyles(styles as any)(Section)
+export default withStyles(styles)(Section)

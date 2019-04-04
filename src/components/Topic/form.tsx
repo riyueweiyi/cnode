@@ -48,7 +48,7 @@ function validate(values: IReplyForm) {
     return errors
   }, {} as any)
 }
-const Form = withStyles(styles as any)(ReplyForm)
+const Form = withStyles(styles)(ReplyForm)
 const ReplyFormWrapper = reduxForm<IReplyForm, IProps>({
   form: 'replyForm',
   validate

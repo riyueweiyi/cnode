@@ -41,4 +41,4 @@ const Item: React.SFC<IItem & IStyle> = function ({ topic, onClick, classes }) {
   </React.Fragment>
 }
 
-export default withStyles(styles as any)(Item)
+export default withStyles(styles)(Item)

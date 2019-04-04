@@ -49,4 +49,4 @@ ReplyItem.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles as any)(ReplyItem)
+export default withStyles(styles)(ReplyItem)

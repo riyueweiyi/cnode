@@ -45,4 +45,4 @@ const Item: React.SFC<IItem> = ({ item, onClick, classes }) => {
 }
 
 
-export default withStyles(styles as any)(Item)
+export default withStyles(styles)(Item)

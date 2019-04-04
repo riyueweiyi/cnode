@@ -4,7 +4,6 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import styles from './styles'
 import { IStyle } from '../../type'
 
-
 const Empty: React.SFC<IStyle> = ({ classes }) => (
   <div className={classes.empty}>
     <Email className={classes.emptyIcon} />
@@ -12,4 +11,4 @@ const Empty: React.SFC<IStyle> = ({ classes }) => (
   </div>
 )
 
-export default withStyles(styles as any)(Empty)
+export default withStyles(styles)(Empty)

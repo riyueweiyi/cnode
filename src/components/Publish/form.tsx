@@ -39,4 +39,4 @@ const PublishForm: React.SFC<IPublishForm & IStyle> = ({ classes, page, nextPage
   </React.Fragment>
 }
 
-export default withStyles(styles as any)(PublishForm)
+export default withStyles(styles)(PublishForm)

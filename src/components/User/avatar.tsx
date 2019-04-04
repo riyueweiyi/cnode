@@ -34,4 +34,4 @@ const AvatarWrapper: React.SFC<IAvatarWrapper & IStyle> = function ({ user, clas
   </div>
 }
 
-export default withStyles(styles as any)(AvatarWrapper)
+export default withStyles(styles)(AvatarWrapper)

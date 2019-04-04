@@ -36,4 +36,4 @@ const GridWrapper: React.SFC<IStyle> = function ({ classes }) {
 </Grid>
 }
 
-export default withStyles(styles as any)(GridWrapper)
+export default withStyles(styles)(GridWrapper)

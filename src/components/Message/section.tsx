@@ -39,4 +39,4 @@ const Section: React.SFC<ISetion> = ({ section, classes, onClick, markAll, hasno
 }
 
 
-export default withStyles(styles as any)(Section)
+export default withStyles(styles)(Section)

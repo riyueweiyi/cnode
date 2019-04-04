@@ -32,4 +32,4 @@ const Content: React.SFC<IContent & IStyle> = ({ detail, classes }) => {
   </React.Fragment>
 }
 
-export default withStyles(styles as any)(Content)
+export default withStyles(styles)(Content)

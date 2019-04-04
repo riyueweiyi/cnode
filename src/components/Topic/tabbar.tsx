@@ -31,4 +31,4 @@ const Tabbar: React.SFC<ITabbar & IStyle> = ({ goBack, author, classes, onClick 
   </AppBar>
 }
 
-export default withStyles(styles as any)(Tabbar)
+export default withStyles(styles)(Tabbar)

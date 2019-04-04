@@ -67,4 +67,4 @@ class ModalWrapper extends React.Component<IModal & IStateToProps & IActionToPro
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ModalWrapper))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ModalWrapper))
